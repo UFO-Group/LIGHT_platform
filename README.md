@@ -1,4 +1,4 @@
-# LIGHT: Automated discovery of optimal hydrogel components by the intelligent agent
+# LIGHT: Automated discovery of optimal hydrogel components by the intelligent agent.
 
 ## Features
 
@@ -240,6 +240,7 @@ China, Donghua University.
 ## License
 
 This project is licensed under the MIT License.
+
 
 
 
