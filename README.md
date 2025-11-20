@@ -86,7 +86,7 @@ LIGHT_platform
 |   README.md
 |   
 +---Automated_Data_Extraction
-|   |   README.txt
+|   |   README.md
 |   |   requirements.txt
 |   |   Split_pdf.ipynb
 |   |   Standardize_Units.ipynb
@@ -110,7 +110,7 @@ LIGHT_platform
 |   |   |   morgan_pooling.py
 |   |   |   pipeline.py
 |   |   |   predict.py
-|   |   |   README_classification.txt
+|   |   |   README.md
 |   |   |   train_rf.py
 |   |   |   
 |   |   \---Best_result
@@ -127,12 +127,12 @@ LIGHT_platform
 |   +---High-throughput predict
 |   |       kmeans-pooled.csv
 |   |       kmeans_results.csv
-|   |       README_predict.txt
+|   |       README.md
 |   |       Result-swelling.csv
 |   |       Result-youngs.csv
 |   |       
 |   \---Regression_Model
-|       |   README_regression.txt
+|       |   README.md
 |       |   
 |       +---Best_result
 |       |   +---MLP
@@ -175,7 +175,7 @@ LIGHT_platform
 |               
 \---Unsupervised_Learning
     |   morgan_pooling.py
-    |   README_unsupervise.txt
+    |   README.md
     |   requirements.txt
     |   
     +---candidate_umap
@@ -240,5 +240,6 @@ China, Donghua University.
 ## License
 
 This project is licensed under the MIT License.
+
 
 
