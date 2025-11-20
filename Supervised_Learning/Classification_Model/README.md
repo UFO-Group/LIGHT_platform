@@ -1,4 +1,4 @@
-### How to create Morgan fingerprint
+### How to create Morgan fingerprint.
 ```bash
 python morgan_pooling.py \
   --in_csv swelling_ratio.csv \
@@ -7,7 +7,7 @@ python morgan_pooling.py \
   --out_csv Path/SMILES-pooled-morgan.csv
 ```
 
-### How to run Classification_model
+### How to run Classification_model.
 ```bash
 python pipeline.py \
   --in_csv  Path/SMILES-pooled-morgan.csv \
@@ -17,7 +17,7 @@ python pipeline.py \
 ```
 
 ### How to predict
-- You need to identify the best model and rename the file using Acc、Acc_class_0、Acc_class_1. e.g. fold_06_model.joblibb to best_model.joblib
+- You need to identify the best model and rename the file using Acc、Acc_class_0、Acc_class_1. e.g. fold_06_model.joblibb to best_model.joblib.
 ```bash
 python predict.py \
   --in_csv Path/kmeans-pooled.csv \
@@ -26,7 +26,7 @@ python predict.py \
   --model_dir Path/rf_cls_cv10_t9/cv10/ 
 ```
 
-###  How to draw Classification_Matrix
+###  How to draw Classification_Matrix.
 ```bash
 python draw_Matrix.py \
   --csv_train   Path/rf_cls_cv10_t9/cv10/fold_06_train.csv \
@@ -40,7 +40,7 @@ python draw_Matrix.py \
   --rotate_xticks 0 \
   --normalize   none
 ```
-###  How to draw Classification_ROC
+###  How to draw Classification_ROC.
 ```bash
 python draw_ROC.py \
   --csv_train Path/rf_cls_cv10_t9/cv10//fold_06_train.csv \
@@ -50,3 +50,4 @@ python draw_ROC.py \
   --test_color  "#F3A5D9" \
   --fill
 ```
+
