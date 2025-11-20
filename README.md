@@ -32,7 +32,7 @@ Run the unsupervised learning module to analyze clustering patterns and the stru
 
 ```bash
 git clone https://github.com/UFO-Group/LIGHT_platform/
-   cd LIGHT_platform
+cd LIGHT_platform
 ```
 
 ### 2. Install dependencies
@@ -69,40 +69,176 @@ def call_deepseek_llm(prompt):
 
 ### Automated_Data_Extraction
 
-Use the DeepSeek API to extract information from literature. See README inside Automated_Data_Extraction for details.
+- Use the DeepSeek API to extract information from literature. See README inside Automated_Data_Extraction for details.
 
 ### Unsupervised_Learning
 
-Use automatically extracted data to perform unsupervised learning and determine combinations. See README in Unsupervised_Learning for details.
+- Use automatically extracted data to perform unsupervised learning and determine combinations. See README in Unsupervised_Learning for details.
 
 ### Supervised_Learning
 
-Use automatically extracted data to train regression and classification models to predict Young’s modulus and swelling ratio. See README in Supervised_Learning for details.
+- Use automatically extracted data to train regression and classification models to predict Young’s modulus and swelling ratio. See README in Supervised_Learning for details.
 
 ## File Structure
 
-Automated_Data_Extraction/ — Automated data extraction folder
-Automated_Data_Extraction/Split_pdf.ipynb — PDF splitting
-Automated_Data_Extraction/Data_Extraction/ — Literature extraction scripts
-Automated_Data_Extraction/Table_Generation.ipynb — Convert extracted information into tables
-Automated_Data_Extraction/Standardize_Units.ipynb — Standardize units in tables
-
-Unsupervised_Learning/ — Unsupervised learning folder
-Unsupervised_Learning/candidate_umap/ — Candidate component distribution plots
-Unsupervised_Learning/database — Original database and data distribution scripts
-Unsupervised_Learning/unsupervised_learning — Scripts for unsupervised clustering
-
-Supervised_Learning/ — Supervised learning folder
-Supervised_Learning/Regression_Model — Regression model scripts
-Supervised_Learning/Classification_Model — Classification model scripts
-Supervised_Learning/High-throughput predict — Unsupervised results and prediction scripts
-Supervised_Learning/DataBase — Original database and data distribution scripts
+```text
+LIGHT_platform
+|   README.md
+|   
++---Automated_Data_Extraction
+|   |   README.txt
+|   |   requirements.txt
+|   |   Split_pdf.ipynb
+|   |   Standardize_Units.ipynb
+|   |   Table_Generation.ipynb
+|   |   
+|   \---Data_Extraction
+|           API-YoungsModulus.py
+|           Clean.py
+|           contains_keywords-swelling.py
+|           contains_keywords-youngs.py
+|           main-PDF-Swellingratio.ipynb
+|           main-PDF-Youngsmodulus.ipynb
+|           TextNormalizer.py
+|           
++---Supervised_Learning
+|   |   requirements.txt
+|   |   
+|   +---Classification_Model
+|   |   |   draw_Matrix.py
+|   |   |   draw_ROC.py
+|   |   |   morgan_pooling.py
+|   |   |   pipeline.py
+|   |   |   predict.py
+|   |   |   README_classification.txt
+|   |   |   train_rf.py
+|   |   |   
+|   |   \---Best_result
+|   |           best_model.joblib
+|   |           cv10_metrics.csv
+|   |           fold_06_train.csv
+|   |           fold_06_valid.csv
+|   |           
+|   +---DataBase
+|   |       Data_Distribution_Statistics_Plot.ipynb
+|   |       swelling_ratio.csv
+|   |       youngs_modulus.csv
+|   |       
+|   +---High-throughput predict
+|   |       kmeans-pooled.csv
+|   |       kmeans_results.csv
+|   |       README_predict.txt
+|   |       Result-swelling.csv
+|   |       Result-youngs.csv
+|   |       
+|   \---Regression_Model
+|       |   README_regression.txt
+|       |   
+|       +---Best_result
+|       |   +---MLP
+|       |   |       cv10_metrics.csv
+|       |   |       fold_08_train.csv
+|       |   |       fold_08_valid.csv
+|       |   |       
+|       |   +---OLS
+|       |   |       fold_8_train.csv
+|       |   |       fold_8_valid.csv
+|       |   |       
+|       |   +---RF
+|       |   |       best_model.joblib
+|       |   |       cv10_metrics.csv
+|       |   |       fold_08_train.csv
+|       |   |       fold_08_valid.csv
+|       |   |       
+|       |   \---SVM
+|       |           cv10_metrics.csv
+|       |           fold_05_train.csv
+|       |           fold_05_valid.csv
+|       |           
+|       +---draw
+|       |       draw_r2.py
+|       |       
+|       +---grid
+|       |       grid_mlp.py
+|       |       grid_svm.py
+|       |       rf_grid_loop.py
+|       |       
+|       +---main_regression
+|       |       baseline_mlp_svm.py
+|       |       baseline_OLS_linear_regression.py
+|       |       baseline_RF.py
+|       |       morgan_pooling.py
+|       |       train_mlp_svm_pipeline.py
+|       |       
+|       \---predict
+|               predict.py
+|               
+\---Unsupervised_Learning
+    |   morgan_pooling.py
+    |   README_unsupervise.txt
+    |   requirements.txt
+    |   
+    +---candidate_umap
+    |       all_AB_smiles2morgan.py
+    |       all_random_smiles_AB_concat1024.rar
+    |       candidate_umap_coordinates.csv
+    |       cluster-3-AB-morgan.py
+    |       Prediction-1028-ALL2-1024.npy
+    |       Prediction-1028-ALL2-candidate-1024.npy
+    |       Prediction-1028-ALL2-candidate-process.csv
+    |       Prediction-1028-ALL2-candidate.csv
+    |       Prediction-1028-ALL2-process.csv
+    |       Prediction-1028-ALL2.csv
+    |       smiles_count.csv
+    |       smiles_count_random_2.csv
+    |       umap-candidate.py
+    |       umap_candidate_visualization.png
+    |       Untitled.ipynb
+    |       
+    +---database
+    |       swelling_ratio.csv
+    |       youngs_modulus.csv
+    |       
+    \---unsupervised_learning
+        |   AB_concat1024.npy
+        |   analyze_unsupervised.py
+        |   cluster_umap_kmeans.png
+        |   cluster_umap_kmeans_from_npy.png
+        |   data-process.py
+        |   final_two_smiles_with_modulus.csv
+        |   morgan.py
+        |   umap2d-kmeans.py
+        |   umap2d.npy
+        |   unsupervised.py
+        |   
+        +---clusters
+        |       cluster_0.csv
+        |       cluster_1.csv
+        |       cluster_2.csv
+        |       cluster_3.csv
+        |       cluster_4.csv
+        |       cluster_5.csv
+        |       cluster_statistics.csv
+        |       
+        \---clusters-from-umap
+                cluster_0.csv
+                cluster_1.csv
+                cluster_2.csv
+                cluster_3.csv
+                cluster_4.csv
+                cluster_5.csv
+```
 
 ## About
+
 Developed by:
+
 UFO Group,
+
 China, Donghua University.
 
 ## License
+
 This project is licensed under the MIT License.
+
 
