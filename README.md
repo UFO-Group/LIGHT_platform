@@ -1,12 +1,12 @@
-# LIGHT: Automated discovery of optimal hydrogel components by the intelligent agent.
+# LIGHT: Automated discovery of optimal hydrogel components by the intelligent agent
 
 ## Features
 
 ### 1. Database Construction Module (Automated Data Extraction)
 
-- This project builds a high-throughput literature data extraction system using the DeepSeek-32B model and PDF/HTML parsing tools (such as pdfplumber).
+This project builds a high-throughput literature data extraction system using the DeepSeek-32B model and PDF/HTML parsing tools (such as pdfplumber).
 
-- All extracted results are stored in standardized JSON format, ensuring semantic consistency, traceability, and convenience for downstream modeling and processing.
+All extracted results are stored in standardized JSON format, ensuring semantic consistency, traceability, and convenience for downstream modeling and processing.
 
 ### 2. Agent-Driven Automated Modeling and High-Throughput Screening
 
@@ -18,66 +18,65 @@ The intelligent agent completes the following tasks without manual intervention:
 
 ### 3. Unsupervised Learning Module
 
-- This module explores the distribution and clustering patterns of hydrogels in the “structure–property space.”
+This module explores the distribution and clustering patterns of hydrogels in the “structure–property space.”
 
 ### 4. Supervised Learning Module
 
-- The supervised module establishes nonlinear mapping relationships between molecular structures and material properties.
+The supervised module establishes nonlinear mapping relationships between molecular structures and material properties.
 
-- Using automatically extracted data, we train regression and classification models to predict Young’s modulus and swelling ratio, respectively.
+Using automatically extracted data, we train regression and classification models to predict Young’s modulus and swelling ratio, respectively.
 
 ## Installation
 
 ### 1. Clone this repository:
-
 ```bash
 git clone https://github.com/UFO-Group/LIGHT_platform/
 cd LIGHT_platform
 ```
 
 ### 2. Install dependencies
-   (Different environments for different modules)
 
-- For literature extraction:
+(Different environments for different modules)
+
+#### For literature extraction:
+
 ```bash
 cd Automated_Data_Extraction
 pip install -r requirements.txt
 ```
 
-- For Unsupervised Learning:
+#### For Unsupervised Learning:
+
 ```bash
 cd Unsupervised_Learning
 pip install -r requirements.txt
 ```
 
-- For Supervised Learning:
+#### For Supervised Learning:
 ```bash
 cd Supervised_Learning
 pip install -r requirements.txt
 ```
 
-### 3. Configure your API and URL in Automated_Data_Extraction
+### 3. Configure your API and URL in Automated\_Data\_Extraction
+
 ```python
 def call_deepseek_llm(prompt):
-   client = OpenAI(
-      api_key="Your_API_KEY",
-      base_url="Your_API_URL"
-   )
+    client = OpenAI(
+        api_key="Your_API_KEY",
+        base_url="Your_API_URL"
+    )
 ```
-
 ## Usage
 
-### Automated_Data_Extraction
+### Automated\_Data\_Extraction
+Use the DeepSeek API to extract information from literature. See README inside Automated\_Data\_Extraction for details.
 
-- Use the DeepSeek API to extract information from literature. See README inside Automated_Data_Extraction for details.
+### Unsupervised\_Learning
+Use automatically extracted data to perform unsupervised learning and determine combinations. See README in Unsupervised\_Learning.
 
-### Unsupervised_Learning
-
-- Use automatically extracted data to perform unsupervised learning and determine combinations. See README in Unsupervised_Learning for details.
-
-### Supervised_Learning
-
-- Use automatically extracted data to train regression and classification models to predict Young’s modulus and swelling ratio. See README in Supervised_Learning for details.
+### Supervised\_Learning
+Use automatically extracted data to train regression and classification models to predict Young’s modulus and swelling ratio. See README in Supervised\_Learning.
 
 ## File Structure
 
@@ -85,33 +84,34 @@ def call_deepseek_llm(prompt):
 LIGHT_platform
 |   README.md
 |   
-+---Automated_Data_Extraction
++---Automated_Data_Extraction                       — Automated data extraction folder
 |   |   README.md
 |   |   requirements.txt
-|   |   Split_pdf.ipynb
-|   |   Standardize_Units.ipynb
-|   |   Table_Generation.ipynb
+|   |   Split_pdf.ipynb                             — PDF splitting
+|   |   Standardize_Units.ipynb                     — Standardize units in tables
+|   |   Table_Generation.ipynb                      — Convert extracted information into tables
 |   |   
-|   \---Data_Extraction
-|           API-YoungsModulus.py
+|   \---Data_Extraction                             — Literature extraction scripts
+|           API-SwellingRatio.py                    — API script for Swelling Ratio
+|           API-YoungsModulus.py                    — API script for Young's Modulus
 |           Clean.py
-|           contains_keywords-swelling.py
+|           contains_keywords-swelling.py          
 |           contains_keywords-youngs.py
-|           main-PDF-Swellingratio.ipynb
-|           main-PDF-Youngsmodulus.ipynb
+|           main-PDF-Swellingratio.ipynb            — main extract script for Swelling Ratio
+|           main-PDF-Youngsmodulus.ipynb            — main extract script for Young's Modulus
 |           TextNormalizer.py
 |           
-+---Supervised_Learning
++---Supervised_Learning                             — Supervised learning folder
 |   |   requirements.txt
 |   |   
-|   +---Classification_Model
+|   +---Classification_Model                        — Classification model scripts
 |   |   |   draw_Matrix.py
 |   |   |   draw_ROC.py
-|   |   |   morgan_pooling.py
+|   |   |   morgan_pooling.py                       — Morgan generate and pooling script
 |   |   |   pipeline.py
-|   |   |   predict.py
+|   |   |   predict.py                              — Young's Modulus prediction script
 |   |   |   README.md
-|   |   |   train_rf.py
+|   |   |   train_rf.py                             — main RF-Regression script
 |   |   |   
 |   |   \---Best_result
 |   |           best_model.joblib
@@ -119,19 +119,19 @@ LIGHT_platform
 |   |           fold_06_train.csv
 |   |           fold_06_valid.csv
 |   |           
-|   +---DataBase
+|   +---DataBase                                    — Original database and data distribution scripts
 |   |       Data_Distribution_Statistics_Plot.ipynb
 |   |       swelling_ratio.csv
 |   |       youngs_modulus.csv
 |   |       
-|   +---High-throughput predict
+|   +---High-throughput predict                     — Unsupervised results and prediction scripts
 |   |       kmeans-pooled.csv
 |   |       kmeans_results.csv
 |   |       README.md
 |   |       Result-swelling.csv
 |   |       Result-youngs.csv
 |   |       
-|   \---Regression_Model
+|   \---Regression_Model                            — Regression model scripts
 |       |   README.md
 |       |   
 |       +---Best_result
@@ -159,30 +159,30 @@ LIGHT_platform
 |       |       draw_r2.py
 |       |       
 |       +---grid
-|       |       grid_mlp.py
-|       |       grid_svm.py
-|       |       rf_grid_loop.py
+|       |       grid_mlp.py                         — run a grid search for MLP
+|       |       grid_svm.py                         — run a grid search for SVM
+|       |       rf_grid_loop.py                     — run a grid search for RF
 |       |       
 |       +---main_regression
-|       |       baseline_mlp_svm.py
-|       |       baseline_OLS_linear_regression.py
-|       |       baseline_RF.py
-|       |       morgan_pooling.py
+|       |       baseline_mlp_svm.py                 — mlp and svm model
+|       |       baseline_OLS_linear_regression.py   — OLS linear regression model
+|       |       baseline_RF.py                      — RF model
+|       |       morgan_pooling.py                   — Morgan generate and pooling script
 |       |       train_mlp_svm_pipeline.py
 |       |       
 |       \---predict
-|               predict.py
+|               predict.py                          — Swelling Ratio prediction script
 |               
-\---Unsupervised_Learning
-    |   morgan_pooling.py
+\---Unsupervised_Learning                           — Unsupervised learning folder
+    |   morgan_pooling.py                           — Morgan generate and pooling script
     |   README.md
     |   requirements.txt
     |   
-    +---candidate_umap
-    |       all_AB_smiles2morgan.py
+    +---candidate_umap                              — Candidate component distribution plots
+    |       all_AB_smiles2morgan.py                 — Generate all SMILES pairs and 1024-bit Morgan fingerprints
     |       all_random_smiles_AB_concat1024.rar
     |       candidate_umap_coordinates.csv
-    |       cluster-3-AB-morgan.py
+    |       cluster-3-AB-morgan.py                  — Read the candidate components file and output Morgan fingerprints
     |       Prediction-1028-ALL2-1024.npy
     |       Prediction-1028-ALL2-candidate-1024.npy
     |       Prediction-1028-ALL2-candidate-process.csv
@@ -191,27 +191,27 @@ LIGHT_platform
     |       Prediction-1028-ALL2.csv
     |       smiles_count.csv
     |       smiles_count_random_2.csv
-    |       umap-candidate.py
+    |       umap-candidate.py                       — Used to generate the UMAP distribution plot for candidate components
     |       umap_candidate_visualization.png
     |       Untitled.ipynb
     |       
-    +---database
+    +---database                                    — Original database and data distribution scripts
     |       swelling_ratio.csv
     |       youngs_modulus.csv
     |       
-    \---unsupervised_learning
+    \---unsupervised_learning                       — Scripts for unsupervised clustering
         |   AB_concat1024.npy
-        |   analyze_unsupervised.py
+        |   analyze_unsupervised.py                 — Analyze the unsupervised results
         |   cluster_umap_kmeans.png
         |   cluster_umap_kmeans_from_npy.png
-        |   data-process.py
+        |   data-process.py                         — Used for merging the two databases of Young's modulus and swelling ratio
         |   final_two_smiles_with_modulus.csv
-        |   morgan.py
-        |   umap2d-kmeans.py
+        |   morgan.py                               — Generate 1024-length fingerprints from the merged database
+        |   umap2d-kmeans.py                        — Additionally, running the command below directly reproduces the unsupervised classification results in the paper
         |   umap2d.npy
-        |   unsupervised.py
+        |   unsupervised.py                         — Perform unsupervised clustering
         |   
-        +---clusters
+        +---clusters                                — Unsupervised classification results
         |       cluster_0.csv
         |       cluster_1.csv
         |       cluster_2.csv
@@ -228,9 +228,7 @@ LIGHT_platform
                 cluster_4.csv
                 cluster_5.csv
 ```
-
 ## About
-
 Developed by:
 
 UFO Group,
@@ -238,10 +236,4 @@ UFO Group,
 China, Donghua University.
 
 ## License
-
 This project is licensed under the MIT License.
-
-
-
-
-
