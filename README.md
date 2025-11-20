@@ -10,11 +10,11 @@
 
 ### 2. Agent-Driven Automated Modeling and High-Throughput Screening
 
-- The intelligent agent completes the following tasks without manual intervention:
+The intelligent agent completes the following tasks without manual intervention:
 
-Parse the hydrogel database and determine the number of samples available for unsupervised learning.
+* Parse the hydrogel database and determine the number of samples available for unsupervised learning.
 
-Run the unsupervised learning module to analyze clustering patterns and the structural–property distribution of hydrogel components.
+* Run the unsupervised learning module to analyze clustering patterns and the structural–property distribution of hydrogel components.
 
 ### 3. Unsupervised Learning Module
 
@@ -240,6 +240,7 @@ China, Donghua University.
 ## License
 
 This project is licensed under the MIT License.
+
 
 
 
