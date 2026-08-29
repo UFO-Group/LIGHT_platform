@@ -1,0 +1,9 @@
+{
+  "best_params": {
+    "svm__kernel": "rbf",
+    "svm__C": 1.0,
+    "svm__epsilon": 0.2,
+    "svm__gamma": "auto"
+  },
+  "best_r2": 0.4052731141586035
+}

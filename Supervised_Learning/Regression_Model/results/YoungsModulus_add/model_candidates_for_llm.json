@@ -1,0 +1,26 @@
+[
+  {
+    "model_type": "rf",
+    "best_fold": 6,
+    "best_score": 0.590852088645319,
+    "pred_csv": "/Regression_Model/results/YoungsModulus_add/predictions/RF_best_pred_kmeans_results.csv"
+  },
+  {
+    "model_type": "mlp",
+    "best_fold": 6,
+    "best_score": 0.54489729191374,
+    "pred_csv": "/Regression_Model/results/YoungsModulus_add/predictions/MLP_best_pred_kmeans_results.csv"
+  },
+  {
+    "model_type": "svm",
+    "best_fold": 3,
+    "best_score": 0.491384193051986,
+    "pred_csv": "/Regression_Model/results/YoungsModulus_add/predictions/SVM_best_pred_kmeans_results.csv"
+  },
+  {
+    "model_type": "ols",
+    "best_fold": 10,
+    "best_score": 0.505373,
+    "pred_csv": "/Regression_Model/results/YoungsModulus_add/predictions/OLS_best_pred_kmeans_results.csv"
+  }
+]
