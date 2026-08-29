@@ -1,0 +1,20 @@
+{
+  "train": {
+    "R2": 0.6086509736585257,
+    "RMSE": 0.776788488336873,
+    "MAE": 0.5397582842456762
+  },
+  "valid": {
+    "R2": 0.3622416600789099,
+    "RMSE": 0.9124256371974216,
+    "MAE": 0.6758596716652263
+  },
+  "meta": {
+    "use_group": false,
+    "group_col": null,
+    "n_splits": null,
+    "fold_idx": null,
+    "y_log1p": false,
+    "model_name": "svm"
+  }
+}
