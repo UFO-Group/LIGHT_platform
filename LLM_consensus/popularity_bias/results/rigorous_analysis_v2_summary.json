@@ -1,0 +1,221 @@
+{
+  "methods": [
+    "Partial Correlation (controlling for other dimensions)",
+    "Robust Regression (Huber + RANSAC ensemble)"
+  ],
+  "threshold": "|ρ_partial| > 0.5 AND p < 0.10 (Permutation test)",
+  "results": {
+    "gpt-5": {
+      "correlation_results": {
+        "Mechanical_Safety": {
+          "rho": 0.07779784116070207,
+          "p_value": 0.903096903096903,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Swelling_Performance": {
+          "rho": 0.0017360769388574105,
+          "p_value": 1.0,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Endothelialization": {
+          "rho": -0.08670410318169108,
+          "p_value": 0.8101898101898102,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "SMC_inhibition": {
+          "rho": 0.18621852529468197,
+          "p_value": 0.6803196803196803,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Anti_inflammation": {
+          "rho": 0.4111219326189698,
+          "p_value": 0.8671328671328671,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Thrombogenicity": {
+          "rho": 0.40625594995044434,
+          "p_value": 0.5974025974025974,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        }
+      },
+      "optimal_formula": {
+        "formula_id": 5,
+        "formula_name": "Formula 5 (GelMA + PEG)",
+        "total_score": 49.54545454545455,
+        "dimension_scores": {
+          "Mechanical_Safety": 8.727272727272727,
+          "Swelling_Performance": 8.409090909090908,
+          "Endothelialization": 7.818181818181818,
+          "SMC_inhibition": 7.636363636363637,
+          "Anti_inflammation": 8.454545454545455,
+          "Thrombogenicity": 8.5
+        }
+      }
+    },
+    "grok-4": {
+      "correlation_results": {
+        "Mechanical_Safety": {
+          "rho": 0.25285106281090025,
+          "p_value": 0.5374625374625375,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Swelling_Performance": {
+          "rho": 0.12238438494060948,
+          "p_value": 0.7442557442557443,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Endothelialization": {
+          "rho": -0.6289362519651622,
+          "p_value": 0.04495504495504495,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        },
+        "SMC_inhibition": {
+          "rho": 0.1616245593712103,
+          "p_value": 0.6713286713286714,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Anti_inflammation": {
+          "rho": 0.5577244147873458,
+          "p_value": 0.4835164835164835,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Thrombogenicity": {
+          "rho": 0.8214732517365652,
+          "p_value": 0.012987012987012988,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        }
+      },
+      "optimal_formula": {
+        "formula_id": 4,
+        "formula_name": "Formula 4 (GelMA + Silk Fibroin)",
+        "total_score": 51.56168422234039,
+        "dimension_scores": {
+          "Mechanical_Safety": 9.0,
+          "Swelling_Performance": 8.0,
+          "Endothelialization": 10.0,
+          "SMC_inhibition": 7.818181818181818,
+          "Anti_inflammation": 9.0,
+          "Thrombogenicity": 7.743502404158566
+        }
+      }
+    },
+    "claude-opus-4-5-20251101": {
+      "correlation_results": {
+        "Mechanical_Safety": {
+          "rho": 0.012144397672807047,
+          "p_value": 0.984015984015984,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Swelling_Performance": {
+          "rho": 0.5424894838270475,
+          "p_value": 0.13386613386613386,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Endothelialization": {
+          "rho": -0.539688121915538,
+          "p_value": 0.13286713286713286,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "SMC_inhibition": {
+          "rho": 0.7668167644876982,
+          "p_value": 0.026973026973026972,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        },
+        "Anti_inflammation": {
+          "rho": -0.03708141659113329,
+          "p_value": 0.9560439560439561,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Thrombogenicity": {
+          "rho": 0.7570099763090276,
+          "p_value": 0.16283716283716285,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        }
+      },
+      "optimal_formula": {
+        "formula_id": 4,
+        "formula_name": "Formula 4 (GelMA + Silk Fibroin)",
+        "total_score": 40.695393159271795,
+        "dimension_scores": {
+          "Mechanical_Safety": 8.181818181818182,
+          "Swelling_Performance": 6.363636363636363,
+          "Endothelialization": 7.818181818181818,
+          "SMC_inhibition": 4.968120431999063,
+          "Anti_inflammation": 7.090909090909091,
+          "Thrombogenicity": 6.2727272727272725
+        }
+      }
+    },
+    "gemini-3-pro-preview": {
+      "correlation_results": {
+        "Mechanical_Safety": {
+          "rho": -0.43628411149439217,
+          "p_value": 0.25074925074925075,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "Swelling_Performance": {
+          "rho": -0.7380751813797619,
+          "p_value": 0.016983016983016984,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        },
+        "Endothelialization": {
+          "rho": -0.4222343406812565,
+          "p_value": 0.21178821178821178,
+          "needs_debiasing": false,
+          "method": "partial_correlation"
+        },
+        "SMC_inhibition": {
+          "rho": 0.869071506450912,
+          "p_value": 0.000999000999000999,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        },
+        "Anti_inflammation": {
+          "rho": 0.7217561466757686,
+          "p_value": 0.07292707292707293,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        },
+        "Thrombogenicity": {
+          "rho": 0.8150324757467489,
+          "p_value": 0.00999000999000999,
+          "needs_debiasing": true,
+          "method": "partial_correlation"
+        }
+      },
+      "optimal_formula": {
+        "formula_id": 2,
+        "formula_name": "Formula 2 (PAM + Gel)",
+        "total_score": 46.67149161119637,
+        "dimension_scores": {
+          "Mechanical_Safety": 7.2727272727272725,
+          "Swelling_Performance": 5.879916321563277,
+          "Endothelialization": 7.181818181818182,
+          "SMC_inhibition": 7.404488878424928,
+          "Anti_inflammation": 8.932540956662711,
+          "Thrombogenicity": 10.0
+        }
+      }
+    }
+  }
+}

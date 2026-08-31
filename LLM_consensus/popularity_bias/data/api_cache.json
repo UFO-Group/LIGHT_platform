@@ -1,0 +1,76 @@
+{
+  "material_frequencies": {
+    "gelatin": 148,
+    "gelatin_methacrylate": 449,
+    "polyacrylamide": 103,
+    "chitosan": 59,
+    "silk_fibroin": 1080,
+    "polyethylene_glycol": 1193,
+    "starch": 79,
+    "chitin": 29,
+    "cellulose": 234,
+    "polyvinyl_alcohol": 934
+  },
+  "api_source_data": {
+    "gelatin": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 148,
+      "datamuse_count": 0,
+      "total_frequency": 148
+    },
+    "gelatin_methacrylate": {
+      "pubchem_synonyms": 7,
+      "arxiv_count": 442,
+      "datamuse_count": 0,
+      "total_frequency": 449
+    },
+    "polyacrylamide": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 103,
+      "datamuse_count": 0,
+      "total_frequency": 103
+    },
+    "chitosan": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 59,
+      "datamuse_count": 0,
+      "total_frequency": 59
+    },
+    "silk_fibroin": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 1080,
+      "datamuse_count": 0,
+      "total_frequency": 1080
+    },
+    "polyethylene_glycol": {
+      "pubchem_synonyms": 244,
+      "arxiv_count": 949,
+      "datamuse_count": 0,
+      "total_frequency": 1193
+    },
+    "starch": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 79,
+      "datamuse_count": 0,
+      "total_frequency": 79
+    },
+    "chitin": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 29,
+      "datamuse_count": 0,
+      "total_frequency": 29
+    },
+    "cellulose": {
+      "pubchem_synonyms": 0,
+      "arxiv_count": 234,
+      "datamuse_count": 0,
+      "total_frequency": 234
+    },
+    "polyvinyl_alcohol": {
+      "pubchem_synonyms": 87,
+      "arxiv_count": 847,
+      "datamuse_count": 0,
+      "total_frequency": 934
+    }
+  }
+}

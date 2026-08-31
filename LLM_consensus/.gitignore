@@ -1,0 +1,67 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+.idea/
+env/
+ENV/
+
+# Linting
+.ruff_cache/
+
+# Editor backups
+*~
+*.un~
+*.swp
+*.swo
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+*.pdf
+
+# Data files
+# Note: extracted_data.json is committed in feature/repeat_and_result
+# Note: reliability_analysis_results.json is committed in feature/analyze-popularity-bias
+# Note: extracted_csv/ is committed in feature/repeat_and_result
+
+# docx and pptx
+# Note: both file types serve only to communicate with non-tech researchers, they do not contribute to the code.
+*.docx
+*.pptx
+
+# Claude Code
+.claude/
+
+# Temporary files
+nul
+*.tmp
+*.bak
+temp*
+
+# Embedding cache files
+.embeddings_*.npz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Chinese documentation files
+现状.md
+关键指令.md
+
+# Ignore non-png picture types to conserve space.
+# tiff, svg, pdf etc. can easily be generated with source code.
+*.tiff
+*.tif
+*.svg

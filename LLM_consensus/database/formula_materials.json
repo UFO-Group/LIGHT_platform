@@ -1,0 +1,62 @@
+{
+  "formulas": {
+    "1": {
+      "name": "Formula 1 (Gel + GelMA)",
+      "materials": ["gelatin", "gelatin_methacrylate"]
+    },
+    "2": {
+      "name": "Formula 2 (PAM + Gel)",
+      "materials": ["polyacrylamide", "gelatin"]
+    },
+    "3": {
+      "name": "Formula 3 (Chitosan + GelMA)",
+      "materials": ["chitosan", "gelatin_methacrylate"]
+    },
+    "4": {
+      "name": "Formula 4 (GelMA + Silk Fibroin)",
+      "materials": ["gelatin_methacrylate", "silk_fibroin"]
+    },
+    "5": {
+      "name": "Formula 5 (GelMA + PEG)",
+      "materials": ["gelatin_methacrylate", "polyethylene_glycol"]
+    },
+    "6": {
+      "name": "Formula 6 (Starch + GelMA)",
+      "materials": ["starch", "gelatin_methacrylate"]
+    },
+    "7": {
+      "name": "Formula 7 (Chitin + GelMA)",
+      "materials": ["chitin", "gelatin_methacrylate"]
+    },
+    "8": {
+      "name": "Formula 8 (GelMA + Cellulose)",
+      "materials": ["gelatin_methacrylate", "cellulose"]
+    },
+    "9": {
+      "name": "Formula 9 (PAM + PVA)",
+      "materials": ["polyacrylamide", "polyvinyl_alcohol"]
+    },
+    "10": {
+      "name": "Formula 10 (PAM + PEG)",
+      "materials": ["polyacrylamide", "polyethylene_glycol"]
+    }
+  },
+  "materials": [
+    "gelatin",
+    "gelatin_methacrylate",
+    "polyacrylamide",
+    "chitosan",
+    "silk_fibroin",
+    "polyethylene_glycol",
+    "starch",
+    "chitin",
+    "cellulose",
+    "polyvinyl_alcohol"
+  ],
+  "material_alternatives": {
+    "gelatin_methacrylate": ["gelatin methacrylate", "gelatin methacryloyl", "gelma"],
+    "silk_fibroin": ["silk fibroin", "fibroin"],
+    "polyethylene_glycol": ["polyethylene glycol", "peg", "polyethyleneglycol"],
+    "polyvinyl_alcohol": ["polyvinyl alcohol", "pva"]
+  }
+}

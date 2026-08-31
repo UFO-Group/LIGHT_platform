@@ -22,7 +22,12 @@ Using automatically extracted data, we train regression and classification model
 
 ### 5. Unsupervised Learning Module
 
-This module explores the distribution and clustering patterns of hydrogels in the “structure–property space.”
+This module explores the distribution and clustering patterns of hydrogels in the "structure–property space."
+
+### 6. LLM Consensus Reliability Analysis Module
+
+This model use LLM to analyze materials, employing multiple runs and rigorous statistical methods to analyze stability, consistency and parse llm-generated arguments against materials.
+
 
 ## Installation
 
@@ -62,6 +67,17 @@ conda activate supervised
 pip install -r requirements.txt
 ```
 
+#### For LLM Consensus Analysis:
+```bash
+cd LLM_consensus
+# Using Poetry (recommended)
+poetry install
+poetry shell
+
+# Or using pip
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ### LIGHT_platform Agent
@@ -74,7 +90,12 @@ Use the DeepSeek API to extract information from literature. See README inside A
 Use automatically extracted data to perform unsupervised learning and determine combinations. See README in Unsupervised\_Learning.
 
 ### Supervised_Learning
-Use automatically extracted data to train regression and classification models to predict Young’s modulus and swelling ratio. See README in Supervised\_Learning.
+Use automatically extracted data to train regression and classification models to predict Young's modulus and swelling ratio. See README in Supervised\_Learning.
+
+### LLM_consensus
+Statistical analysis of LLM model reliability in materials science decision-making tasks.
+
+See `LLM_consensus/README.md` for detailed documentation.
 
 ## File Structure
 
@@ -230,67 +251,122 @@ LIGHT_platform
 │              │              
 │              └─svm_grid
 │                      
-└─Unsupervised_Learning											— Unsupervised learning folder
-    │  morgan_pooling.py										— Morgan generate and pooling script
+├─Unsupervised_Learning											— Unsupervised learning folder
+│   │  morgan_pooling.py										— Morgan generate and pooling script
+│   │  README.md
+│   │  requirements.txt
+│   │  
+│   ├─candidate_umap											— Candidate component distribution plots
+│   │      all_AB_smiles2morgan.py								— Generate all SMILES pairs and 1024-bit Morgan fingerprints
+│   │      all_random_smiles_AB_concat1024.rar
+│   │      candidate_umap_automation.py							— Automatically achieve the umap distribution of candidate components
+│   │      candidate_umap_coordinates.csv
+│   │      cluster-3-AB-morgan.py								— Read the candidate components file and output Morgan fingerprints
+│   │      Prediction-1028-ALL2-1024.npy
+│   │      Prediction-1028-ALL2-candidate-1024.npy
+│   │      Prediction-1028-ALL2-candidate-process.csv
+│   │      Prediction-1028-ALL2-candidate.csv
+│   │      Prediction-1028-ALL2-process.csv
+│   │      Prediction-1028-ALL2.csv
+│   │      smiles_count.csv
+│   │      smiles_count_random_2.csv
+│   │      umap-candidate.py									— Used to generate the UMAP distribution plot for candidate components
+│   │      umap_candidate_visualization.png
+│   │      
+│   ├─database													— Original database
+│   │      swelling_ratio.csv
+│   │      youngs_modulus.csv
+│   │      
+│   └─unsupervised_learning										— Scripts for unsupervised clustering
+│       │  AB_concat1024.npy
+│       │  analyze_unsupervised.py								— Analyze the unsupervised results
+│       │  API.py												— Invoke the large language model
+│       │  Best_classification_response.py						— Select the optimal cluster using the large language model
+│       │  cluster_umap_kmeans.png
+│       │  cluster_umap_kmeans_from_npy.png
+│       │  data-process.py										— Used for merging the two databases of Young's modulus and swelling ratio
+│       │  final_two_smiles_with_modulus.csv
+│       │  morgan.py											— Generate 1024-length fingerprints from the merged database
+│       │  smiles_count_AB.py									— Combining and removing duplicates for the aggregation polymer judgments of the best clusters
+│       │  umap2d-kmeans.py										— Additionally, running the command below directly reproduces the unsupervised classification results in the paper
+│       │  umap2d.npy
+│       │  unsupervised.py										— Perform unsupervised clustering
+│       │  unsupervised_learning_automation.py					— Automated implementation of unsupervised learning and analysis
+│       │  
+│       ├─clusters												— Unsupervised classification results
+│       │      cluster_0.csv
+│       │      cluster_1.csv
+│       │      cluster_2.csv
+│       │      cluster_3-AB-ordered.csv
+│       │      cluster_3-AB-unique.csv
+│       │      cluster_3-counts.csv
+│       │      cluster_3.csv
+│       │      cluster_4.csv
+│       │      cluster_5.csv
+│       │      cluster_statistics.csv
+│       │      
+│       └─clusters-from-umap									— Reproduce the unsupervised results of the article
+│               cluster_0.csv
+│               cluster_1.csv
+│               cluster_2.csv
+│               cluster_3.csv
+│               cluster_4.csv
+│               cluster_5.csv
+│
+├─LLM_consensus											— LLM reliability analysis module
     │  README.md
-    │  requirements.txt
-    │  
-    ├─candidate_umap											— Candidate component distribution plots
-    │      all_AB_smiles2morgan.py								— Generate all SMILES pairs and 1024-bit Morgan fingerprints
-    │      all_random_smiles_AB_concat1024.rar
-    │      candidate_umap_automation.py							— Automatically achieve the umap distribution of candidate components
-    │      candidate_umap_coordinates.csv
-    │      cluster-3-AB-morgan.py								— Read the candidate components file and output Morgan fingerprints
-    │      Prediction-1028-ALL2-1024.npy
-    │      Prediction-1028-ALL2-candidate-1024.npy
-    │      Prediction-1028-ALL2-candidate-process.csv
-    │      Prediction-1028-ALL2-candidate.csv
-    │      Prediction-1028-ALL2-process.csv
-    │      Prediction-1028-ALL2.csv
-    │      smiles_count.csv
-    │      smiles_count_random_2.csv
-    │      umap-candidate.py									— Used to generate the UMAP distribution plot for candidate components
-    │      umap_candidate_visualization.png
-    │      
-    ├─database													— Original database
-    │      swelling_ratio.csv
-    │      youngs_modulus.csv
-    │      
-    └─unsupervised_learning										— Scripts for unsupervised clustering
-        │  AB_concat1024.npy
-        │  analyze_unsupervised.py								— Analyze the unsupervised results
-        │  API.py												— Invoke the large language model
-        │  Best_classification_response.py						— Select the optimal cluster using the large language model
-        │  cluster_umap_kmeans.png
-        │  cluster_umap_kmeans_from_npy.png
-        │  data-process.py										— Used for merging the two databases of Young's modulus and swelling ratio
-        │  final_two_smiles_with_modulus.csv
-        │  morgan.py											— Generate 1024-length fingerprints from the merged database
-        │  smiles_count_AB.py									— Combining and removing duplicates for the aggregation polymer judgments of the best clusters
-        │  umap2d-kmeans.py										— Additionally, running the command below directly reproduces the unsupervised classification results in the paper
-        │  umap2d.npy
-        │  unsupervised.py										— Perform unsupervised clustering
-        │  unsupervised_learning_automation.py					— Automated implementation of unsupervised learning and analysis
-        │  
-        ├─clusters												— Unsupervised classification results
-        │      cluster_0.csv
-        │      cluster_1.csv
-        │      cluster_2.csv
-        │      cluster_3-AB-ordered.csv
-        │      cluster_3-AB-unique.csv
-        │      cluster_3-counts.csv
-        │      cluster_3.csv
-        │      cluster_4.csv
-        │      cluster_5.csv
-        │      cluster_statistics.csv
-        │      
-        └─clusters-from-umap									— Reproduce the unsupervised results of the article
-                cluster_0.csv
-                cluster_1.csv
-                cluster_2.csv
-                cluster_3.csv
-                cluster_4.csv
-                cluster_5.csv
+    │  analyze.py										— Unified API interface
+    │  run_pipeline.py									— One-click analysis pipeline
+    │  pyproject.toml
+    │
+    ├─reliability_analysis									— Core reliability analysis
+    │  │  __init__.py
+    │  │  extract_data.py									— Data extraction from LLM outputs
+    │  │  analyze_reliability.py								— ICC/CV/entropy analysis
+    │
+    ├─popularity_bias										— Popularity bias detection
+    │  │  __init__.py
+    │  ├─analysis/
+    │  │  │  __init__.py
+    │  │  │  robust_regression.py							— Partial Correlation + Huber + RANSAC
+    │  ├─scripts/
+    │  │  │  analyze_rigorous_v2.py
+    │  │  │  fetch_material_frequencies.py
+    │  │  │  run_popularity_bias_analysis.py
+    │  ├─data/
+    │  │  │  material_frequencies.json
+    │  │  │  relative_frequencies.json
+    │  │  │  formula_materials.json
+    │  └─results/
+    │
+    ├─anti_analysis											— Anti-formula argument extraction
+    │  │  __init__.py
+    │  ├─analysis/
+    │  │  │  __init__.py
+    │  │  │  extract_arguments.py
+    │  ├─scripts/
+    │  │  │  extract_anti_arguments.py
+    │  └─results/
+    │
+    ├─reporting											— LaTeX report generation
+    │  │  __init__.py
+    │  │  generate_tex.py									— Chinese report
+    │  │  generate_tex_en.py								— English report
+    │
+    ├─visualization											— Visualization module
+    │  │  __init__.py
+    │  │  visualize_icc.py
+    │  │  visualize_cv.py
+    │  │  visualize_entropy.py
+    │  │  visualize_popularity_bias.py
+    │  │  visualize_debias_heatmap.py
+    │  │  visualize_formula_bias_impact.py
+    │
+    ├─database/
+    │  │  formula_materials.json
+    │  │  materials.txt
+    │
+    └─visualizations/										— Generated charts
 ```
 
 ## Note

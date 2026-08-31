@@ -1,0 +1,339 @@
+{
+  "gpt-5": {
+    "scoring_reliability": {
+      "Mechanical_Safety": {
+        "overall_cv": 6.5021508893355175,
+        "overall_std": 0.5193600697076295,
+        "max_cv": 9.926524451622514,
+        "min_cv": 4.58733927036845,
+        "consistency_ratio": 0.15702004964982672
+      },
+      "Swelling_Performance": {
+        "overall_cv": 9.583051708292547,
+        "overall_std": 0.6650325090330993,
+        "max_cv": 14.458385039802463,
+        "min_cv": 5.8368367510024175,
+        "consistency_ratio": 0.28434634183250207
+      },
+      "Endothelialization": {
+        "overall_cv": 8.073545784631884,
+        "overall_std": 0.5126915103252635,
+        "max_cv": 14.353932555669028,
+        "min_cv": 3.726544708264494,
+        "consistency_ratio": 0.24594516914040296
+      },
+      "SMC_inhibition": {
+        "overall_cv": 10.460036604749504,
+        "overall_std": 0.6132554023105294,
+        "max_cv": 16.864020829049707,
+        "min_cv": 5.323863379638183,
+        "consistency_ratio": 0.30995743981013546
+      },
+      "Anti_inflammation": {
+        "overall_cv": 10.988693967377788,
+        "overall_std": 0.6915223466696285,
+        "max_cv": 20.73345813596637,
+        "min_cv": 5.582084882760176,
+        "consistency_ratio": 0.357386329620734
+      },
+      "Thrombogenicity": {
+        "overall_cv": 11.333383187634695,
+        "overall_std": 0.662833003621102,
+        "max_cv": 19.131197457586364,
+        "min_cv": 4.587339270368451,
+        "consistency_ratio": 0.32295899502699144
+      },
+      "Total_Score": {
+        "overall_cv": 5.798385626432475,
+        "overall_std": 2.348487631839503,
+        "max_cv": 8.918868418721736,
+        "min_cv": 3.6513300444279633,
+        "consistency_ratio": 0.188848739431253
+      }
+    },
+    "icc_scores": {
+      "Mechanical_Safety": 0.7071662422699169,
+      "Swelling_Performance": 0.6562613430127037,
+      "Endothelialization": 0.891197019096414,
+      "SMC_inhibition": 0.8356115955691729,
+      "Anti_inflammation": 0.8337707607135536,
+      "Thrombogenicity": 0.8863532763532763,
+      "Total_Score": 0.8776434546954164
+    },
+    "winner_consistency": {
+      "winner_distribution": {
+        "5": 10,
+        "10": 1
+      },
+      "most_common_winner": 5,
+      "most_common_count": 10,
+      "total_runs": 11,
+      "consistency_rate": 90.9090909090909,
+      "entropy": 0.4394969869215134,
+      "max_entropy": 1.0
+    },
+    "winner_margin": {
+      "avg_margin": 2.272727272727273,
+      "std_margin": 1.1261357902943223,
+      "cv_margin": 49.54997477295018,
+      "min_margin": 1.0,
+      "max_margin": 4.0,
+      "margin_count": 11,
+      "cascading_risk": "最优与次优得分差异适中（平均2.27分），cascading divergence风险较低。最优选择相对稳定，但仍有改进空间。",
+      "risk_level": "低风险"
+    }
+  },
+  "grok-4": {
+    "scoring_reliability": {
+      "Mechanical_Safety": {
+        "overall_cv": 6.317972709848158,
+        "overall_std": 0.53196110193501,
+        "max_cv": 10.174940381383365,
+        "min_cv": 4.969039949999533,
+        "consistency_ratio": 0.1657560594707111
+      },
+      "Swelling_Performance": {
+        "overall_cv": 9.222216760890996,
+        "overall_std": 0.7474825173627926,
+        "max_cv": 15.811388300841896,
+        "min_cv": 3.3843110105667353,
+        "consistency_ratio": 0.2838062079489806
+      },
+      "Endothelialization": {
+        "overall_cv": 9.578880866954034,
+        "overall_std": 0.6329174828109467,
+        "max_cv": 14.272480642961256,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.28839033403755765
+      },
+      "SMC_inhibition": {
+        "overall_cv": 14.472456898471824,
+        "overall_std": 0.9730345221578365,
+        "max_cv": 23.35651260813662,
+        "min_cv": 10.309228547118112,
+        "consistency_ratio": 0.4159510842046868
+      },
+      "Anti_inflammation": {
+        "overall_cv": 10.38239344172845,
+        "overall_std": 0.6996040400351766,
+        "max_cv": 21.081851067789195,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.2967219860281366
+      },
+      "Thrombogenicity": {
+        "overall_cv": 12.229893398170006,
+        "overall_std": 0.8031857370710739,
+        "max_cv": 37.896056669673584,
+        "min_cv": 4.405662467581582,
+        "consistency_ratio": 0.3692893610674432
+      },
+      "Total_Score": {
+        "overall_cv": 5.86115014680683,
+        "overall_std": 2.594346862842477,
+        "max_cv": 11.37412660375245,
+        "min_cv": 3.1738346143764633,
+        "consistency_ratio": 0.18774661884325383
+      }
+    },
+    "icc_scores": {
+      "Mechanical_Safety": 0.4083601286173628,
+      "Swelling_Performance": 0.2276816608996538,
+      "Endothelialization": 0.859841864336246,
+      "SMC_inhibition": 0.23002345582486325,
+      "Anti_inflammation": 0.7017241379310344,
+      "Thrombogenicity": 0.6998786898503844,
+      "Total_Score": 0.6300076084199852
+    },
+    "winner_consistency": {
+      "winner_distribution": {
+        "3": 1,
+        "4": 7,
+        "5": 3
+      },
+      "most_common_winner": 4,
+      "most_common_count": 7,
+      "total_runs": 11,
+      "consistency_rate": 63.63636363636363,
+      "entropy": 1.2406705316766884,
+      "max_entropy": 1.584962500721156
+    },
+    "winner_margin": {
+      "avg_margin": 2.0,
+      "std_margin": 1.0,
+      "cv_margin": 50.0,
+      "min_margin": 1.0,
+      "max_margin": 4.0,
+      "margin_count": 11,
+      "cascading_risk": "最优与次优得分差异适中（平均2.00分），cascading divergence风险较低。最优选择相对稳定，但仍有改进空间。",
+      "risk_level": "低风险"
+    }
+  },
+  "claude-opus-4-5-20251101": {
+    "scoring_reliability": {
+      "Mechanical_Safety": {
+        "overall_cv": 3.544338511379391,
+        "overall_std": 0.2552278402905609,
+        "max_cv": 6.543704547437349,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.08361437908496731
+      },
+      "Swelling_Performance": {
+        "overall_cv": 7.729262321710519,
+        "overall_std": 0.4642310935072625,
+        "max_cv": 20.552372125864203,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.19371774215581267
+      },
+      "Endothelialization": {
+        "overall_cv": 4.654943642601671,
+        "overall_std": 0.2559537032745786,
+        "max_cv": 10.364452469860625,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.11333179266605709
+      },
+      "SMC_inhibition": {
+        "overall_cv": 7.885210350418006,
+        "overall_std": 0.4154083303680759,
+        "max_cv": 12.534346846631683,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.22088180258349896
+      },
+      "Anti_inflammation": {
+        "overall_cv": 8.749205133547232,
+        "overall_std": 0.5127267366987744,
+        "max_cv": 14.136017459644606,
+        "min_cv": 4.252083064558205,
+        "consistency_ratio": 0.18542509172164784
+      },
+      "Thrombogenicity": {
+        "overall_cv": 8.078661445578778,
+        "overall_std": 0.48551325519071986,
+        "max_cv": 17.126976771553508,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.21792940373455774
+      },
+      "Total_Score": {
+        "overall_cv": 4.266258356315918,
+        "overall_std": 1.5351627171760323,
+        "max_cv": 6.121271946185891,
+        "min_cv": 3.0634741851312963,
+        "consistency_ratio": 0.1274298891487255
+      }
+    },
+    "icc_scores": {
+      "Mechanical_Safety": 0.89699481865285,
+      "Swelling_Performance": 0.7806537691794526,
+      "Endothelialization": 0.9662772339753708,
+      "SMC_inhibition": 0.6896810506566601,
+      "Anti_inflammation": 0.8187702265372168,
+      "Thrombogenicity": 0.7797037037037036,
+      "Total_Score": 0.8708317214700196
+    },
+    "winner_consistency": {
+      "winner_distribution": {
+        "3": 2,
+        "4": 7,
+        "5": 2
+      },
+      "most_common_winner": 4,
+      "most_common_count": 7,
+      "total_runs": 11,
+      "consistency_rate": 63.63636363636363,
+      "entropy": 1.3092966682370037,
+      "max_entropy": 1.584962500721156
+    },
+    "winner_margin": {
+      "avg_margin": 1.6363636363636365,
+      "std_margin": 1.911686547147689,
+      "cv_margin": 116.82528899235875,
+      "min_margin": 0.0,
+      "max_margin": 7.0,
+      "margin_count": 11,
+      "cascading_risk": "最优与次优得分差异较小（平均1.64分），存在一定的cascading divergence风险。在某些run中，评分波动可能改变最优选择。 注意：存在margin小于1.0的run（最小0.00），这些run可能不稳定。",
+      "risk_level": "中风险"
+    }
+  },
+  "gemini-3-pro-preview": {
+    "scoring_reliability": {
+      "Mechanical_Safety": {
+        "overall_cv": 10.27845253594359,
+        "overall_std": 0.5605192397962965,
+        "max_cv": 20.552372125864203,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.22004852228827634
+      },
+      "Swelling_Performance": {
+        "overall_cv": 7.810872800566182,
+        "overall_std": 0.373679493197531,
+        "max_cv": 26.34919503315924,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.1672207962760701
+      },
+      "Endothelialization": {
+        "overall_cv": 6.901743131797296,
+        "overall_std": 0.4203894298472224,
+        "max_cv": 19.51174568911159,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.14775749287690157
+      },
+      "SMC_inhibition": {
+        "overall_cv": 2.6563132159360534,
+        "overall_std": 0.1868397465987655,
+        "max_cv": 14.473501497087469,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.056868268434134214
+      },
+      "Anti_inflammation": {
+        "overall_cv": 12.966576573991029,
+        "overall_std": 0.7006490497453706,
+        "max_cv": 27.042594902452898,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.27759781973664277
+      },
+      "Thrombogenicity": {
+        "overall_cv": 2.5204593475867747,
+        "overall_std": 0.09341987329938276,
+        "max_cv": 14.272480642961252,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.05395981087470449
+      },
+      "Total_Score": {
+        "overall_cv": 3.9587116405750793,
+        "overall_std": 1.4012980994907414,
+        "max_cv": 10.521692214606249,
+        "min_cv": 0.0,
+        "consistency_ratio": 0.08475095289175981
+      }
+    },
+    "icc_scores": {
+      "Mechanical_Safety": 0.9298040362679145,
+      "Swelling_Performance": 0.8973684210526315,
+      "Endothelialization": 0.9369791666666669,
+      "SMC_inhibition": 0.9424523160762943,
+      "Anti_inflammation": 0.7312959153687923,
+      "Thrombogenicity": 0.9946090130562962,
+      "Total_Score": 0.9070048569886672
+    },
+    "winner_consistency": {
+      "winner_distribution": {
+        "4": 11
+      },
+      "most_common_winner": 4,
+      "most_common_count": 11,
+      "total_runs": 11,
+      "consistency_rate": 100.0,
+      "entropy": -0.0,
+      "max_entropy": 0.0
+    },
+    "winner_margin": {
+      "avg_margin": 3.4545454545454546,
+      "std_margin": 4.203894298472223,
+      "cv_margin": 121.69167706103804,
+      "min_margin": 1.0,
+      "max_margin": 10.0,
+      "margin_count": 11,
+      "cascading_risk": "最优与次优得分差异明显（平均3.45分），cascading divergence风险极低。最优选择非常稳定，决策一致性高。",
+      "risk_level": "极低风险"
+    }
+  }
+}
