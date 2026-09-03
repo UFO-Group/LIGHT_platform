@@ -15,11 +15,7 @@ This project uses statistical methods to analyze the performance consistency of 
 ### Environment Setup
 
 ```bash
-# Using Poetry (recommended)
 poetry install
-
-# Or using pip
-pip install -r requirements.txt
 ```
 
 ### Using Unified API Interface (Recommended)
@@ -110,11 +106,21 @@ python -m reporting.generate_tex_en
 ```
 LLM_consensus/
 ├── analyze.py                      # Unified API interface (recommended)
-├── llm_concensus.py                # LLM API calling script
+├── analyze_llm_reliability.py      # Standalone reliability analysis entry
+├── extract_data.py                 # Data extraction entry
+├── llm_concensus.py                # LLM API calling script (reads prompt.md)
 ├── run_pipeline.py                 # One-click run script
+├── prompt.md                       # Prompt template sent to the LLM
 ├── example_visualization.py        # Example visualization generation
 ├── fix_quotes.py                   # Quote fixing utility
 ├── test_optimal_formula.py         # Optimal formula test
+│
+├── extracted_data.json             # Extracted LLM decision data
+├── reliability_analysis_results.json  # Reliability analysis results
+├── LLM_Reliability_Report.tex      # Generated Chinese report (LaTeX source)
+├── LLM_Reliability_Report_EN.tex   # Generated English report (LaTeX source)
+├── .latexmkrc                      # latexmk build configuration
+├── poetry.lock                     # Locked dependency versions
 │
 ├── reliability_analysis/           # Reliability analysis module
 │   ├── __init__.py
@@ -126,8 +132,8 @@ LLM_consensus/
 │   ├── analysis/
 │   │   ├── __init__.py
 │   │   └── robust_regression.py    # Main analysis logic
-│   ├── scripts/                    # Legacy scripts (optional)
-│   │   ├── analyze_rigorous_v2.py
+│   ├── scripts/                    # Analysis & test scripts
+│   │   ├── analyze_rigorous_v2.py  # Rigorous bias analysis (v2, main entry)
 │   │   ├── fetch_material_frequencies.py
 │   │   ├── test_apis.py
 │   │   ├── test_pubchem_two_step.py
@@ -150,7 +156,7 @@ LLM_consensus/
 │   ├── analysis/
 │   │   ├── __init__.py
 │   │   └── extract_arguments.py    # Main extraction logic
-│   ├── scripts/                    # Legacy scripts (optional)
+│   ├── scripts/                    # Analysis scripts
 │   │   └── extract_anti_arguments.py
 │   └── results/                    # Output results
 │       ├── anti-Formula 4.md
@@ -175,18 +181,15 @@ LLM_consensus/
 │   ├── visualize_ranking.py
 │   ├── visualize_results.py
 │   ├── visualize_results_en.py
-│   └── visualize_utils.py
+│   ├── visualize_utils.py
+│   ├── plot_decision_flow.py       # Decision flow diagram
+│   ├── nature_figure_reliability_bias.py  # Nature-style reliability/bias figure
+│   ├── visualize_radar_nature.py   # Nature-style radar comparison
+│   └── visualize_radar_by_model.py # Per-model radar charts
 │
 ├── database/                       # Data storage
 │   ├── formula_materials.json      # Formula-material mapping
 │   └── materials.txt               # Material list
-│
-├── claude/                         # Claude analysis context
-│   ├── ANALYSIS_PLAN_popularity_bias.md
-│   ├── CLAUDE_CONTEXT.json
-│   ├── PROJECT_SUMMARY.md
-│   ├── README.md
-│   └── 关键指令.md
 │
 ├── visualizations/                 # Generated chart outputs
 ├── extracted_csv/                  # Extracted CSV files
@@ -199,10 +202,7 @@ LLM_consensus/
 ├── .env.example                    # Environment variable example
 ├── pyproject.toml                  # Poetry dependency management
 ├── .gitignore                      # Git ignore rules
-├── README.md                       # Project documentation
-├── MODULE_USAGE.md                 # Module usage guide
-├── DIRECTORY_STRUCTURE.md          # Directory structure documentation
-└── 现状.md                        # Project status note
+└── README.md                       # Project documentation
 ```
 
 ### Modular Architecture
@@ -304,7 +304,7 @@ Files generated after completion:
   - `anti-Formula 5.md` - Arguments against Formula 5 (Markdown format)
 
 ### Visualizations
-- `visualizations/overall_comparison.png` - Overall comparison radar chart
+- `visualizations/overall_comparison_radar.png` - Overall comparison radar chart
 - `visualizations/cv_comparison.png` - CV comparison bar chart
 - `visualizations/icc_heatmap.png` - ICC heatmap
 - `visualizations/winner_consistency.png` - Winner consistency chart
@@ -323,7 +323,7 @@ Files generated after completion:
 - **Statistical Analysis**: scipy, scikit-learn
 - **Visualization**: matplotlib, seaborn
 - **Report Generation**: LaTeX (xelatex)
-- **Dependency Management**: Poetry, pip
+- **Dependency Management**: Poetry
 
 ## Known Issues
 
@@ -377,12 +377,6 @@ MIT License
 ## Contributing
 
 Issues and Pull Requests are welcome!
-
-## Documentation
-
-- **README.md** - This document, quick start guide
-- **MODULE_USAGE.md** - Detailed module usage guide and API documentation
-- **DIRECTORY_STRUCTURE.md** - Project directory structure documentation
 
 ## API Documentation
 
