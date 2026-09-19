@@ -1,0 +1,4 @@
+method,n_shared,ARI_orig_vs_add,frac_same_label
+existing,1191,0.764,0.6163
+pca64_kmeans,1191,0.8773,0.3804
+hdbscan_umap2d,1191,0.9218,0.9597
