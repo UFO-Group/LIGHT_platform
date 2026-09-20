@@ -1,0 +1,7 @@
+dataset,labeling,best_SR_cluster,best_YM_cluster
+add,existing,5,5
+add,pca64_kmeans,3,3
+add,hdbscan_umap2d,0,0
+orig,existing,3,3
+orig,pca64_kmeans,5,5
+orig,hdbscan_umap2d,0,0

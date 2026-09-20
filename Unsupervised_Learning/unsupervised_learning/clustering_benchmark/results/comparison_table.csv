@@ -1,0 +1,4 @@
+labeling,n_clusters,noise_frac,silhouette,davies_bouldin,calinski_harabasz,ARI_vs_existing,NMI_vs_existing,AMI_vs_existing,bootstrap_ARI_mean,bootstrap_ARI_std,kruskal_YM_p
+existing,6,0.0,0.6394,0.5359,4023.3,1.0,1.0,1.0,,,2.45e-16
+pca64_kmeans,6,0.0,0.2737,1.2747,370.8,0.4633,0.6208,0.6185,0.9455,0.0589,7.73e-24
+hdbscan_umap2d,8,0.127,0.6906,0.3927,8601.3,0.7197,0.8132,0.8116,0.695,0.1774,2.79e-20
