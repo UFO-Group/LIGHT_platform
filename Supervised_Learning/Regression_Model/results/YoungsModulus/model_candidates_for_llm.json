@@ -1,26 +1,8 @@
 [
   {
     "model_type": "rf",
-    "best_fold": 8,
-    "best_score": 0.6384175337545848,
+    "best_fold": 4,
+    "best_score": 0.5078,
     "pred_csv": "/Regression_Model/results/YoungsModulus/predictions/RF_best_pred_kmeans_results.csv"
-  },
-  {
-    "model_type": "mlp",
-    "best_fold": 8,
-    "best_score": 0.5733336360555914,
-    "pred_csv": "/Regression_Model/results/YoungsModulus/predictions/MLP_best_pred_kmeans_results.csv"
-  },
-  {
-    "model_type": "svm",
-    "best_fold": 5,
-    "best_score": 0.4994479421968257,
-    "pred_csv": "/Regression_Model/results/YoungsModulus/predictions/SVM_best_pred_kmeans_results.csv"
-  },
-  {
-    "model_type": "ols",
-    "best_fold": 8,
-    "best_score": 0.501195,
-    "pred_csv": "/Regression_Model/results/YoungsModulus/predictions/OLS_best_pred_kmeans_results.csv"
   }
 ]

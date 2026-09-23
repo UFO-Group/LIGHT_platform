@@ -1,7 +1,11 @@
 {
-  "n_estimators": 400,
-  "max_depth": 15,
-  "min_samples_split": 12,
-  "min_samples_leaf": 2,
-  "max_features": 0.2
+  "best_params": {
+    "n_estimators": 400,
+    "max_depth": 20,
+    "min_samples_split": 16,
+    "min_samples_leaf": 2,
+    "max_features": 0.2
+  },
+  "best_r2_gcv_mean": 0.508485,
+  "protocol": "GroupKFold(5) on _fp_hash, production 96-combo grid, seed 42"
 }

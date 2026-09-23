@@ -1,0 +1,8 @@
+﻿[INFO] params (from results\YoungsModulus\rf_grid\best_params.json): {'n_estimators': 400, 'max_depth': 20, 'min_samples_split': 16, 'min_samples_leaf': 2, 'max_features': 0.2}
+[OK] honest metrics (GroupKFold(10) on _fp_hash): R2 = 0.508 ± 0.057 | RMSE = 0.801 | MAE = 0.628
+[NOTE] caveat: hyperparameters were selected on the same dataset (GroupKFold(5)); GroupKFold(10) scores are therefore mildly optimistic.
+[OK] deployed model (full-data retrain, 1629 rows) -> results\YoungsModulus\rf_cv10\fold_models\best_model.joblib
+[OK] predictions (630 candidates) -> results\YoungsModulus\predictions\RF_best_pred_kmeans_results.csv
+---- final-selection self-check (Selection_pipeline.py rule, verbatim) ----
+final selection: 10 pairs | kept 10/10 | dropped [] | added []
+[OK] final selection reproduced exactly (10/10).
