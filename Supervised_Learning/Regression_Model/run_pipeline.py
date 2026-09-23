@@ -97,23 +97,20 @@ def run_draw_pipeline(cwd: Path):
 
 def check_draw_results(draw_root: Path):
     """
-    Check if scatter plots already exist for rf/mlp/svm/ols
+    Check if scatter plots already exist for rf
+    (the pipeline deploys RF only; other model families are compared in
+    separate analyses, not in this runtime pipeline.)
     Returns (all_exist: bool, detail: dict)
     detail: {
         "rf": [Path, ...],
-        "mlp": [...],
-        "svm": [...],
-        "ols": [...],
     }
     """
-    models = ["rf", "mlp", "svm", "ols"]
+    models = ["rf"]
     detail = {}
     all_exist = True
 
     for m in models:
         pattern = draw_root / m / "fold_*" / "scatter_*.png"
-        # The complex list comprehension in the original code seemed slightly redundant or had unused branches. 
-        # Using glob directly on draw_root matches the logic intended.
         files = list(draw_root.glob(f"{m}/fold_*/scatter_*.png"))
         detail[m] = files
         if not files:

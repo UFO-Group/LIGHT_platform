@@ -5,7 +5,6 @@ This module visualizes the impact of popularity bias on each formula across
 different LLM models. The heatmap shows the score difference between debiased
 and original scores, indicating how much each formula was affected by bias.
 
-Author: Claude Code
 Date: 2026-05-23
 """
 

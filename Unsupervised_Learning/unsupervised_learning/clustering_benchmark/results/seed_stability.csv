@@ -1,0 +1,14 @@
+method,seed,ARI_vs_base
+pca64_kmeans,0,0.8910272428005547
+pca64_kmeans,1,0.8889254870544517
+pca64_kmeans,2,0.961419282696671
+pca64_kmeans,3,1.0
+pca64_kmeans,4,1.0
+pca64_kmeans,5,1.0
+pca64_kmeans,6,1.0
+pca64_kmeans,7,0.8612308504342459
+pca64_kmeans,8,0.8898192664394524
+pca64_kmeans,9,1.0
+umap2d_kmeans,1,0.7056854622855785
+umap2d_kmeans,7,0.567871054633285
+umap2d_kmeans,42,0.6448609281973355
