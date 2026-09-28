@@ -1,0 +1,42 @@
+{
+  "true_final": [
+    "Pair_1",
+    "Pair_19",
+    "Pair_37",
+    "Pair_39",
+    "Pair_41",
+    "Pair_44",
+    "Pair_46",
+    "Pair_53",
+    "Pair_124",
+    "Pair_229"
+  ],
+  "production_final10": [
+    "Pair_1",
+    "Pair_19",
+    "Pair_37",
+    "Pair_39",
+    "Pair_41",
+    "Pair_44",
+    "Pair_46",
+    "Pair_53",
+    "Pair_124",
+    "Pair_229"
+  ],
+  "kept": [
+    "Pair_1",
+    "Pair_19",
+    "Pair_37",
+    "Pair_39",
+    "Pair_41",
+    "Pair_44",
+    "Pair_46",
+    "Pair_53",
+    "Pair_124",
+    "Pair_229"
+  ],
+  "dropped": [],
+  "added": [],
+  "n_band_after_true_regex": 65,
+  "n_class1_after_regex": 63
+}

@@ -90,7 +90,7 @@ Use the DeepSeek API to extract information from literature. See README inside A
 Use automatically extracted data to perform unsupervised learning and determine combinations. See README in Unsupervised\_Learning.
 
 ### Supervised_Learning
-Use automatically extracted data to train regression and classification models to predict Young's modulus and swelling ratio. See README in Supervised\_Learning.
+Use automatically extracted data to train regression and classification models to predict Young's modulus and swelling ratio. The regression head uses group-aware cross-validation (identical materials never straddle folds) with a full-data-retrain deployment and a built-in final-selection self-check; see README in Supervised\_Learning and Supervised\_Learning/analyses/ for the post-hoc robustness and export analyses.
 
 ### LLM_consensus
 Statistical analysis of LLM model reliability in materials science decision-making tasks.
@@ -187,6 +187,11 @@ LIGHT_platform
 │  │      Result-swelling.csv			
 │  │      Result-youngs.csv			
 │  │      			
+│  ├─analyses										— Post-hoc analyses (not part of the runtime pipeline)
+│  │      add_robustness/							— +32-row add-data robustness check
+│  │      correct_export/							— Corrected material-candidate export reference
+│  │      pair_id_rejoin_audit/						— Candidate composition-annotation audit
+│  │
 │  └─Regression_Model								— Regression model scripts
 │      │  draw_pipline.py
 │      │  README.md
@@ -210,46 +215,33 @@ LIGHT_platform
 │      ├─draw
 │      │      draw_r2.py
 │      │      
-│      ├─grid
-│      │      grid_mlp.py							— run a grid search for MLP
-│      │      grid_svm.py               			— run a grid search for SVM
-│      │      rf_grid_loop.py           			— run a grid search for RF
-│      │      
 │      ├─main_regression
-│      │      baseline_mlp_svm.py					— mlp and svm model
-│      │      baseline_OLS_linear_regression.py     — OLS linear regression model
-│      │      baseline_RF.py                        — RF model
+│      │      deploy_rf.py							— honest eval + full retrain + prediction + final-selection self-check
 │      │      morgan_pooling.py                     — Morgan generate and pooling script
-│      │      train_mlp_svm_pipeline.py
-│      │      
-│      ├─predict
-│      │      predict.py							— Young's Modulus prediction script
-│      │      
+│      │      select_params_groupcv.py              — group-aware RF hyperparameter selection (GroupKFold on _fp_hash)
+│      │
+│      │      (retired single-holdout / plain-KFold stages — grid/*.py,
+│      │       baseline_*.py, train_mlp_svm_pipeline.py, predict/predict.py —
+│      │       live in git history only)
+│      │
 │      └─results
 │          └─YoungsModulus
 │              │  model_candidates_for_llm.json
 │              │  overall_best_model.json
 │              │  
 │              ├─draw
-│              │              
+│              │
 │              ├─features
-│              │      
-│              ├─mlp_grid
-│              │      
-│              ├─ols_linear
-│              │          
+│              │
 │              ├─predictions
-│              │      
+│              │
 │              ├─rf_cv10
-│              │          
-│              ├─rf_grid
-│              │      
-│              ├─runs
-│              │  ├─mlp
-│              │  │          
-│              │  └─svm
-│              │              
-│              └─svm_grid
+│              │
+│              └─rf_grid
+│
+│              (legacy outputs of the retired protocol, kept for the
+│               record: mlp_grid/, svm_grid/, ols_linear/, runs/,
+│               and the sibling results/YoungsModulus_add/)
 │                      
 ├─Unsupervised_Learning											— Unsupervised learning folder
 │   │  morgan_pooling.py										— Morgan generate and pooling script

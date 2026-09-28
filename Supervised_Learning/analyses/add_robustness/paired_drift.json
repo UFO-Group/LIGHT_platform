@@ -1,0 +1,46 @@
+{
+  "frozen_params": {
+    "n_estimators": 400,
+    "max_depth": 20,
+    "min_samples_split": 16,
+    "min_samples_leaf": 2,
+    "max_features": 0.2
+  },
+  "reselected_params": {
+    "n_estimators": 600,
+    "max_depth": 25,
+    "min_samples_split": 16,
+    "min_samples_leaf": 2,
+    "max_features": 0.2
+  },
+  "identical_params": false,
+  "fold_R2_frozen": [
+    0.3472,
+    0.371,
+    0.4896,
+    0.4836,
+    0.4495,
+    0.4259,
+    0.4935,
+    0.4792,
+    0.6887,
+    0.6504
+  ],
+  "fold_R2_reselected": [
+    0.34,
+    0.377,
+    0.494,
+    0.4883,
+    0.4531,
+    0.4244,
+    0.5014,
+    0.4786,
+    0.6811,
+    0.6511
+  ],
+  "diff_mean": 0.0009998993677503675,
+  "diff_std": 0.005067638940977978,
+  "wilcoxon_stat": 21.0,
+  "wilcoxon_p": 0.556640625,
+  "verdict": "mean diff +0.0010 (Wilcoxon p=0.557)"
+}

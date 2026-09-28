@@ -1,0 +1,8 @@
+﻿[INFO] params (from add_robustness\rf_grid\best_params.json): {'n_estimators': 600, 'max_depth': 25, 'min_samples_split': 16, 'min_samples_leaf': 2, 'max_features': 0.2}
+[OK] honest metrics (GroupKFold(10) on _fp_hash): R2 = 0.489 ± 0.107 | RMSE = 0.864 | MAE = 0.654
+[NOTE] caveat: hyperparameters were selected on the same dataset (GroupKFold(5)); GroupKFold(10) scores are therefore mildly optimistic.
+[OK] deployed model (full-data retrain, 1661 rows) -> add_robustness\rf_cv10\fold_models\best_model.joblib
+[OK] predictions (630 candidates) -> add_robustness\predictions\RF_best_pred_kmeans_results.csv
+---- final-selection self-check (Selection_pipeline.py rule, verbatim) ----
+final selection: 10 pairs | kept 9/10 | dropped ['Pair_124'] | added ['Pair_7']
+[WARNING] final selection DIFFERS from the expected list. If training data or candidates changed this may be legitimate — re-verify before any deployment claim.
