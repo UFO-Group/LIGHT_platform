@@ -1,0 +1,11 @@
+﻿Pair_ID,exported_was_correct,true_SMILE_A,true_SMILE_B
+Pair_1,True,[*]NC(C(N1CCCC1C(NCC(N2CC(CC2C(NC(C(NCC([*])=O)=O)CO)=O)O)=O)=O)=O)CCCCN,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O
+Pair_19,False,O=C(N)C([*])C[*],[*]NC(C(N1CCCC1C(NCC(N2CC(CC2C(NC(C(NCC([*])=O)=O)CO)=O)O)=O)=O)=O)CCCCN
+Pair_37,True,OCC(C(C(C1N)O)O[*])OC1OC2C(OC(C(C2O)N)[*])CO,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O
+Pair_39,False,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O,[H]N(C([H])([H])C(N([H])C(C)([H])C(N(C([H])([H])C([*])=O)[H])=O)=O)C(C(N([*])[H])(C)[H])=O
+Pair_41,False,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O,[*]OCC[*]
+Pair_44,False,OCC1OC(C(C(C1[*])O)O)OC2C(C(C(OC2CO)O[*])O)O,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O
+Pair_46,False,[*]C1C(OC(C(C1O)O)OC2C(OC(C(C2O)O)OC3C(OC(C(C3O)O)O[*])CO)CO)CO,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O
+Pair_53,False,OCC1OC(C(C(C1O[*])O)NC(C)=O)OC2C(O)C(C(OC2CO)[*])NC(C)=O,[*]NC(CCCCNC(C(C)=C)=O)C(N1CCCC1C(NCC(N2CC(O)CC2C(NC(COC(C(C)=C)=O)C(NCC([*])=O)=O)=O)=O)=O)=O
+Pair_124,False,O=C(N)C([*])C[*],[*]C([H])([H])C(O)([H])[*]
+Pair_229,False,O=C(N)C([*])C[*],[*]OCC[*]

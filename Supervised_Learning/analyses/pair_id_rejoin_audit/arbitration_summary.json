@@ -1,0 +1,11 @@
+{
+  "kmeans_results": {
+    "fingerprint_identical_rows": 14,
+    "total_rows": 630
+  },
+  "SwellingRatio_predict": {
+    "fingerprint_identical_rows": 630,
+    "total_rows": 630
+  },
+  "verdict_true_annotation": "SwellingRatio_predict"
+}
