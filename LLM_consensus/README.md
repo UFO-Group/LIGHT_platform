@@ -15,11 +15,7 @@ This project uses statistical methods to analyze the performance consistency of 
 ### Environment Setup
 
 ```bash
-# Using Poetry (recommended)
 poetry install
-
-# Or using pip
-pip install -r requirements.txt
 ```
 
 ### Using Unified API Interface (Recommended)
@@ -78,8 +74,7 @@ python run_pipeline.py
 This will automatically execute:
 1. Data extraction
 2. Reliability analysis
-3. Visualization generation
-4. LaTeX report generation
+3. LaTeX report generation
 
 ### Running Individual Modules (Traditional)
 
@@ -110,11 +105,20 @@ python -m reporting.generate_tex_en
 ```
 LLM_consensus/
 ├── analyze.py                      # Unified API interface (recommended)
-├── llm_concensus.py                # LLM API calling script
+├── analyze_llm_reliability.py      # Standalone reliability analysis entry
+├── extract_data.py                 # Data extraction entry
+├── llm_concensus.py                # LLM API calling script (reads prompt.md)
 ├── run_pipeline.py                 # One-click run script
-├── example_visualization.py        # Example visualization generation
+├── prompt.md                       # Prompt template sent to the LLM
 ├── fix_quotes.py                   # Quote fixing utility
 ├── test_optimal_formula.py         # Optimal formula test
+│
+├── extracted_data.json             # Extracted LLM decision data
+├── reliability_analysis_results.json  # Reliability analysis results
+├── LLM_Reliability_Report.tex      # Generated Chinese report (LaTeX source)
+├── LLM_Reliability_Report_EN.tex   # Generated English report (LaTeX source)
+├── .latexmkrc                      # latexmk build configuration
+├── poetry.lock                     # Locked dependency versions
 │
 ├── reliability_analysis/           # Reliability analysis module
 │   ├── __init__.py
@@ -126,13 +130,12 @@ LLM_consensus/
 │   ├── analysis/
 │   │   ├── __init__.py
 │   │   └── robust_regression.py    # Main analysis logic
-│   ├── scripts/                    # Legacy scripts (optional)
-│   │   ├── analyze_rigorous_v2.py
+│   ├── scripts/                    # Analysis & test scripts
+│   │   ├── analyze_rigorous_v2.py  # Rigorous bias analysis (v2, main entry)
 │   │   ├── fetch_material_frequencies.py
 │   │   ├── test_apis.py
 │   │   ├── test_pubchem_two_step.py
-│   │   ├── test_pubchem_urls.py
-│   │   └── run_popularity_bias_analysis.py
+│   │   └── test_pubchem_urls.py
 │   ├── data/                       # Input data
 │   │   ├── material_frequencies.json
 │   │   ├── relative_frequencies.json
@@ -142,15 +145,14 @@ LLM_consensus/
 │   └── results/                    # Output results
 │       ├── *_debiased_rigorous_v2.json
 │       ├── rigorous_analysis_v2_summary.json
-│       ├── rigorous_analysis_v2.log
-│       └── *.png
+│       └── rigorous_analysis_v2.log
 │
 ├── anti_analysis/                  # Anti-formula analysis module (recommended)
 │   ├── __init__.py
 │   ├── analysis/
 │   │   ├── __init__.py
 │   │   └── extract_arguments.py    # Main extraction logic
-│   ├── scripts/                    # Legacy scripts (optional)
+│   ├── scripts/                    # Analysis scripts
 │   │   └── extract_anti_arguments.py
 │   └── results/                    # Output results
 │       ├── anti-Formula 4.md
@@ -161,32 +163,13 @@ LLM_consensus/
 │   ├── generate_tex.py             # Chinese report generation
 │   └── generate_tex_en.py          # English report generation
 │
-├── visualization/                  # Visualization module
-│   ├── __init__.py
-│   ├── visualize_comparison.py
-│   ├── visualize_consistency.py
-│   ├── visualize_cv.py
-│   ├── visualize_debias_heatmap.py # Popularity bias visualizations
-│   ├── visualize_entropy.py
-│   ├── visualize_formula_bias_impact.py
-│   ├── visualize_icc.py
-│   ├── visualize_model_detail.py
-│   ├── visualize_popularity_bias.py
-│   ├── visualize_ranking.py
-│   ├── visualize_results.py
-│   ├── visualize_results_en.py
-│   └── visualize_utils.py
+├── visualization/                  # Visualization scripts (standalone)
+│   ├── plot_decision_flow.py       # Decision flow diagram (per-run selection matrix + debiased winner comparison)
+│   └── nature_figure_reliability_bias.py  # Nature-style reliability/bias summary figure
 │
 ├── database/                       # Data storage
 │   ├── formula_materials.json      # Formula-material mapping
 │   └── materials.txt               # Material list
-│
-├── claude/                         # Claude analysis context
-│   ├── ANALYSIS_PLAN_popularity_bias.md
-│   ├── CLAUDE_CONTEXT.json
-│   ├── PROJECT_SUMMARY.md
-│   ├── README.md
-│   └── 关键指令.md
 │
 ├── visualizations/                 # Generated chart outputs
 ├── extracted_csv/                  # Extracted CSV files
@@ -199,10 +182,7 @@ LLM_consensus/
 ├── .env.example                    # Environment variable example
 ├── pyproject.toml                  # Poetry dependency management
 ├── .gitignore                      # Git ignore rules
-├── README.md                       # Project documentation
-├── MODULE_USAGE.md                 # Module usage guide
-├── DIRECTORY_STRUCTURE.md          # Directory structure documentation
-└── 现状.md                        # Project status note
+└── README.md                       # Project documentation
 ```
 
 ### Modular Architecture
@@ -290,13 +270,6 @@ Files generated after completion:
   - `{model}_debiased_rigorous_v2.json` - Debiasing results per model
   - `rigorous_analysis_v2_summary.json` - Analysis summary
   - `rigorous_analysis_v2.log` - Analysis log
-  - `*.png` - Visualization charts:
-    - `debias_heatmap_comprehensive.png` - Comprehensive bias heatmap (partial correlation coefficients)
-    - `debias_heatmap_pvalue.png` - P-value heatmap
-    - `debias_heatmap_summary.png` - Bias summary heatmap (0/1 matrix)
-    - `debias_stacked_chart.png` - Model bias comparison chart
-    - `debias_dimension_bar.png` - Dimension bias distribution chart
-    - `model_formula_pvalue_heatmap.png` - Model vs Formula p-value heatmap (bias impact by dimensions)
 
 ### Anti-Formula Analysis Results
 - `anti_analysis/results/` - Anti-formula analysis output directory
@@ -304,13 +277,9 @@ Files generated after completion:
   - `anti-Formula 5.md` - Arguments against Formula 5 (Markdown format)
 
 ### Visualizations
-- `visualizations/overall_comparison.png` - Overall comparison radar chart
-- `visualizations/cv_comparison.png` - CV comparison bar chart
-- `visualizations/icc_heatmap.png` - ICC heatmap
-- `visualizations/winner_consistency.png` - Winner consistency chart
-- `visualizations/reliability_ranking.png` - Reliability ranking chart
-- `visualizations/entropy_analysis.png` - Entropy analysis chart
-- `visualizations/{model}_detail.png` - Model-specific detailed analysis charts
+- `visualizations/decision_flow.png` - Decision flow figure (panel i: per-run selection matrix; panel j: original vs debiased winner comparison)
+- `visualization/plot_decision_flow.py` - Script that generates the decision flow figure
+- `visualization/nature_figure_reliability_bias.py` - Script that generates the Nature-style reliability/bias summary figure (`visualizations/nature_figure_reliability_bias.*`)
 
 ### Reports
 - `LLM_Reliability_Report.tex/.pdf` - Chinese report
@@ -323,7 +292,7 @@ Files generated after completion:
 - **Statistical Analysis**: scipy, scikit-learn
 - **Visualization**: matplotlib, seaborn
 - **Report Generation**: LaTeX (xelatex)
-- **Dependency Management**: Poetry, pip
+- **Dependency Management**: Poetry
 
 ## Known Issues
 
@@ -377,12 +346,6 @@ MIT License
 ## Contributing
 
 Issues and Pull Requests are welcome!
-
-## Documentation
-
-- **README.md** - This document, quick start guide
-- **MODULE_USAGE.md** - Detailed module usage guide and API documentation
-- **DIRECTORY_STRUCTURE.md** - Project directory structure documentation
 
 ## API Documentation
 

@@ -1,6 +1,6 @@
 """
 LLM Consensus Data Extractor
-从markdown文件中提取数据并规范化存储
+Extract data from markdown files and store it in normalized form
 """
 
 import pandas as pd
@@ -14,7 +14,7 @@ import io
 
 
 class LLMDataExtractor:
-    """从LLM输出文件中提取数据"""
+    """Extract data from LLM output files"""
 
     def __init__(self, base_dir: str = "."):
         self.base_dir = Path(base_dir)
@@ -31,25 +31,25 @@ class LLMDataExtractor:
 
     def extract_formula_number(self, text: str) -> Optional[int]:
         """
-        从文本中提取配方编号
+        Extract the formula number from text
 
-        支持多种格式:
+        Supports multiple formats:
         - "Formula 5"
         - "Formula 5 (GelMA & PEG)"
         - "GelMA & PEG [Formula 5]"
         - "Formula 4: GelMA & Silk"
 
-        参数:
-            text: 包含配方信息的文本
+        Args:
+            text: text containing formula information
 
-        返回:
-            配方编号(1-10)，如果未找到则返回None
+        Returns:
+            Formula number (1-10), or None if not found
         """
-        # 尝试多种模式匹配
+        # Try multiple pattern matches
         patterns = [
             r'Formula\s*(\d+)',  # "Formula 5"
             r'\[Formula\s*(\d+)\]',  # "[Formula 5]"
-            r'formula\s*(\d+)',  # "formula 5" (小写)
+            r'formula\s*(\d+)',  # "formula 5" (lowercase)
         ]
 
         for pattern in patterns:
@@ -66,13 +66,13 @@ class LLMDataExtractor:
 
     def extract_run_number(self, run_header: str) -> int:
         """
-        从run头部提取run编号
+        Extract the run number from a run header
 
-        参数:
-            run_header: run标题文本，如 "# Run 0 response"
+        Args:
+            run_header: run title text, e.g. "# Run 0 response"
 
-        返回:
-            run编号
+        Returns:
+            Run number
         """
         match = re.search(r'Run\s*(\d+)', run_header, re.IGNORECASE)
         if match:
@@ -81,13 +81,14 @@ class LLMDataExtractor:
 
     def extract_data_from_md(self, model_name: str) -> Optional[pd.DataFrame]:
         """
-        从markdown文件中提取数据
+        Extract data from a markdown file
 
-        参数:
-            model_name: 模型名称
+        Args:
+            model_name: model name
 
-        返回:
-            包含提取数据的DataFrame，如果文件不存在或数据提取失败则返回None
+        Returns:
+            DataFrame with the extracted data, or None if the file does not
+            exist or extraction fails
         """
         file_path = self.base_dir / f"{model_name}.md"
 
@@ -98,11 +99,11 @@ class LLMDataExtractor:
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # 提取每一轮的数据
-        # 尝试多种分隔模式
+        # Extract data for each run
+        # Try multiple separator patterns
         patterns = [
-            r'# Run (\d+) response',  # 标准: "# Run 0 response"
-            r'Run (\d+)',  # 简化: "Run 0"
+            r'# Run (\d+) response',  # standard: "# Run 0 response"
+            r'Run (\d+)',  # simplified: "Run 0"
         ]
 
         runs = []
@@ -122,7 +123,7 @@ class LLMDataExtractor:
             run_num = int(runs[i].strip().split('Temperature')[0].strip())
             run_content = runs[i + 1]
 
-            # 提取CSV数据
+            # Extract CSV data
             csv_match = re.search(r'```csv\s*\n(.*?)```', run_content, re.DOTALL)
             if not csv_match:
                 continue
@@ -133,15 +134,15 @@ class LLMDataExtractor:
             if len(lines) < 2:
                 continue
 
-            # 解析CSV头部
+            # Parse CSV header
             headers = [h.strip() for h in lines[0].split(',')]
 
-            # 解析每一行数据
+            # Parse each data row
             for line in lines[1:]:
                 parts = [p.strip() for p in line.split(',')]
                 if len(parts) >= 8:
                     formula = parts[0]
-                    # 提取Formula编号
+                    # Extract the formula number
                     formula_num = self.extract_formula_number(formula)
                     if formula_num is None:
                         continue
@@ -153,7 +154,7 @@ class LLMDataExtractor:
                         'Formula_Name': formula
                     }
 
-                    # 提取各个评分
+                    # Extract the individual scores
                     for j, criterion in enumerate(self.criteria):
                         if j + 1 < len(parts):
                             try:
@@ -163,7 +164,7 @@ class LLMDataExtractor:
 
                     data_records.append(scores)
 
-            # 提取获胜配方 - 尝试多种模式
+            # Extract the winning formula - try multiple patterns
             winner_patterns = [
                 r'Selected Formula[:\s]+(.*?)(?:\n|One-Sentence)',
                 r'Selected Formula[:\s]+\*\*(.*?)\*\*',
@@ -179,7 +180,7 @@ class LLMDataExtractor:
                     if winner_num is not None:
                         break
 
-            # 为本轮所有记录添加Winner字段
+            # Add the Winner field to all records of this run
             for record in data_records:
                 if record['Run'] == run_num:
                     record['Winner'] = winner_num
@@ -192,10 +193,10 @@ class LLMDataExtractor:
 
     def extract_and_save_all(self) -> Dict[str, pd.DataFrame]:
         """
-        提取所有模型的数据并保存
+        Extract data for all models and save it
 
-        返回:
-            字典，键为模型名称，值为DataFrame
+        Returns:
+            Dict mapping model name to DataFrame
         """
         print("=" * 80)
         print("LLM数据提取器")
@@ -210,33 +211,33 @@ class LLMDataExtractor:
                 all_data[model] = df
                 print(f"  ✓ 成功提取 {len(df)} 条记录，{df['Run'].nunique()} 轮运行")
 
-                # 检查Winner字段
+                # Check the Winner field
                 winner_counts = df[df['Winner'].notna()].groupby('Run')['Winner'].first()
                 print(f"    - 提取到 {len(winner_counts)} 个获胜配方")
 
-                # 检查缺失的Winner
+                # Check for missing Winner values
                 missing_winners = df['Run'].nunique() - len(winner_counts)
                 if missing_winners > 0:
                     print(f"    ⚠ 警告: {missing_winners} 个run缺少获胜配方信息")
             else:
                 print(f"  ✗ 提取失败")
 
-        # 保存为JSON
+        # Save as JSON
         self.save_to_json(all_data)
 
-        # 保存为CSV（每个模型单独一个文件）
+        # Save as CSV (one file per model)
         self.save_to_csv(all_data)
 
         print(f"\n总共提取了 {len(all_data)} 个模型的数据")
         return all_data
 
     def save_to_json(self, all_data: Dict[str, pd.DataFrame]) -> None:
-        """保存为JSON格式"""
+        """Save in JSON format"""
         output_path = self.base_dir / "extracted_data.json"
 
         export_data = {}
         for model, df in all_data.items():
-            # 将DataFrame转换为字典列表，处理NaN值
+            # Convert DataFrame to a list of dicts, handling NaN values
             export_data[model] = df.to_dict('records')
 
         with open(output_path, 'w', encoding='utf-8') as f:
@@ -246,7 +247,7 @@ class LLMDataExtractor:
 
     @staticmethod
     def json_serializer(obj):
-        """JSON序列化器，处理numpy和pandas类型"""
+        """JSON serializer handling numpy and pandas types"""
         if isinstance(obj, (np.integer, np.floating)):
             if np.isnan(obj):
                 return None
@@ -256,7 +257,7 @@ class LLMDataExtractor:
         raise TypeError(f"Object of type {type(obj)} is not JSON serializable")
 
     def save_to_csv(self, all_data: Dict[str, pd.DataFrame]) -> None:
-        """保存为CSV格式（每个模型一个文件）"""
+        """Save in CSV format (one file per model)"""
         output_dir = self.base_dir / "extracted_csv"
         output_dir.mkdir(exist_ok=True)
 
@@ -265,7 +266,7 @@ class LLMDataExtractor:
             df.to_csv(output_path, index=False, encoding='utf-8')
             print(f"  CSV已保存: {output_path}")
 
-        # 同时保存一个合并的CSV
+        # Also save a merged CSV
         merged_df = pd.concat(all_data.values(), ignore_index=True)
         output_path = output_dir / "all_models.csv"
         merged_df.to_csv(output_path, index=False, encoding='utf-8')
@@ -273,7 +274,7 @@ class LLMDataExtractor:
 
 
 def main():
-    """主函数"""
+    """Main function"""
     print("开始提取LLM数据...")
 
     extractor = LLMDataExtractor()
@@ -284,7 +285,7 @@ def main():
         print("数据提取完成！")
         print("=" * 80)
 
-        # 打印统计信息
+        # Print summary statistics
         print("\n数据统计:")
         for model, df in all_data.items():
             print(f"\n{model}:")

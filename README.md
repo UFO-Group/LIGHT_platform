@@ -70,12 +70,12 @@ pip install -r requirements.txt
 #### For LLM Consensus Analysis:
 ```bash
 cd LLM_consensus
-# Using Poetry (recommended)
 poetry install
 poetry shell
 
-# Or using pip
-pip install -r requirements.txt
+# Configure API access (required before running the pipeline)
+cp .env.example .env
+# Then edit .env and fill in API_KEY and API_URL
 ```
 
 ## Usage
@@ -317,12 +317,22 @@ LIGHT_platform
     │  README.md
     │  analyze.py										— Unified API interface
     │  run_pipeline.py									— One-click analysis pipeline
-    │  pyproject.toml
+    │  llm_concensus.py									— LLM query runner (reads prompt.md, calls API)
+    │  analyze_llm_reliability.py						— Standalone reliability analysis entry
+    │  extract_data.py									— Data extraction entry
+    │  prompt.md										— Prompt template sent to the LLM
+    │  .env.example										— Template for API_KEY / API_URL
+    │  pyproject.toml / poetry.lock						— Poetry environment definition
+    │  extracted_data.json								— Extracted LLM decision data
+    │  reliability_analysis_results.json				— Reliability analysis results
+    │  extracted_csv/									— Per-model extracted decisions (CSV)
+    │  <model>.md										— Raw LLM responses per model
+    │  LLM_Reliability_Report.tex / _EN.tex + .latexmkrc	— Generated LaTeX reports
     │
-    ├─reliability_analysis									— Core reliability analysis
+    ├─reliability_analysis								— Core reliability analysis
     │  │  __init__.py
-    │  │  extract_data.py									— Data extraction from LLM outputs
-    │  │  analyze_reliability.py								— ICC/CV/entropy analysis
+    │  │  extract_data.py								— Data extraction from LLM outputs
+    │  │  analyze_reliability.py							— ICC/CV/entropy analysis
     │
     ├─popularity_bias										— Popularity bias detection
     │  │  __init__.py
@@ -330,14 +340,11 @@ LIGHT_platform
     │  │  │  __init__.py
     │  │  │  robust_regression.py							— Partial Correlation + Huber + RANSAC
     │  ├─scripts/
-    │  │  │  analyze_rigorous_v2.py
-    │  │  │  fetch_material_frequencies.py
+    │  │  │  analyze_rigorous_v2.py						— Rigorous bias analysis (v2)
+    │  │  │  fetch_material_frequencies.py				— Material frequency retrieval
     │  │  │  run_popularity_bias_analysis.py
-    │  ├─data/
-    │  │  │  material_frequencies.json
-    │  │  │  relative_frequencies.json
-    │  │  │  formula_materials.json
-    │  └─results/
+    │  ├─data/											— Frequencies, cached API data, formula materials
+    │  └─results/										— Analysis summaries and debias charts
     │
     ├─anti_analysis											— Anti-formula argument extraction
     │  │  __init__.py
@@ -353,18 +360,21 @@ LIGHT_platform
     │  │  generate_tex.py									— Chinese report
     │  │  generate_tex_en.py								— English report
     │
+    ├─database/											— Formula-material reference data
+    │
     ├─visualization											— Visualization module
     │  │  __init__.py
-    │  │  visualize_icc.py
-    │  │  visualize_cv.py
-    │  │  visualize_entropy.py
-    │  │  visualize_popularity_bias.py
-    │  │  visualize_debias_heatmap.py
-    │  │  visualize_formula_bias_impact.py
-    │
-    ├─database/
-    │  │  formula_materials.json
-    │  │  materials.txt
+    │  │  visualize_icc.py								— ICC heatmaps
+    │  │  visualize_cv.py								— CV comparison
+    │  │  visualize_entropy.py							— Entropy analysis
+    │  │  visualize_popularity_bias.py					— Popularity bias charts
+    │  │  visualize_debias_heatmap.py					— Debias heatmaps
+    │  │  visualize_formula_bias_impact.py				— Formula bias impact
+    │  │  plot_decision_flow.py							— Decision flow diagram
+    │  │  nature_figure_reliability_bias.py				— Nature-style reliability/bias figure
+    │  │  visualize_radar_nature.py						— Nature-style radar comparison
+    │  │  visualize_radar_by_model.py					— Per-model radar charts
+    │  │  visualize_utils.py + others					— Comparison/detail/ranking/results charts
     │
     └─visualizations/										— Generated charts
 ```

@@ -1,5 +1,5 @@
 """
-生成LaTeX格式的LLM可靠性分析报告
+Generate the LLM reliability analysis report in LaTeX format
 """
 
 import json
@@ -12,7 +12,7 @@ from typing import Dict, List
 
 
 class LaTeXReportGenerator:
-    """生成LaTeX格式的可靠性分析报告"""
+    """Generate the reliability analysis report in LaTeX format"""
 
     def __init__(self, base_dir: str = "."):
         self.base_dir = Path(base_dir)
@@ -20,7 +20,7 @@ class LaTeXReportGenerator:
         self.output_file = self.base_dir / "LLM_Reliability_Report.tex"
 
     def load_data(self) -> Dict:
-        """加载分析结果数据"""
+        """Load the analysis results data"""
         if not self.data_file.exists():
             raise FileNotFoundError(f"数据文件不存在: {self.data_file}")
 
@@ -30,7 +30,7 @@ class LaTeXReportGenerator:
         return data
 
     def generate_preamble(self) -> str:
-        """生成LaTeX文档的导言部分"""
+        """Generate the LaTeX document preamble"""
         return r"""\documentclass[12pt,a4paper]{article}
 
 % 中文支持
@@ -92,7 +92,7 @@ class LaTeXReportGenerator:
 """
 
     def generate_section_introduction(self) -> str:
-        """生成引言部分"""
+        """Generate the introduction section"""
         return r"""
 \section{研究背景与目的}
 
@@ -120,7 +120,7 @@ class LaTeXReportGenerator:
 """
 
     def generate_section_methodology(self) -> str:
-        """生成研究方法部分"""
+        """Generate the methodology section"""
         return r"""
 \section{研究方法}
 
@@ -190,7 +190,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 """
 
     def generate_model_section(self, model_name: str, model_data: Dict) -> str:
-        """生成单个模型的分析部分"""
+        """Generate the analysis section for a single model"""
         section_content = f"""
 \\section{{{model_name} 可靠性分析}}
 
@@ -207,7 +207,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 \\midrule
 """
 
-        # 添加评分可靠性数据
+        # Add scoring reliability data
         if 'scoring_reliability' in model_data:
             for criterion, stats in model_data['scoring_reliability'].items():
                 criterion_display = criterion.replace('_', '\\_')
@@ -235,7 +235,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 \midrule
 """
 
-        # 添加ICC数据
+        # Add ICC data
         if 'icc_scores' in model_data:
             for criterion, icc in model_data['icc_scores'].items():
                 criterion_display = criterion.replace('_', '\\_')
@@ -250,7 +250,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 
 """
 
-        # 添加决策一致性数据
+        # Add decision consistency data
         if 'winner_consistency' in model_data:
             wc = model_data['winner_consistency']
             section_content += f"""
@@ -289,7 +289,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
         return section_content
 
     def generate_comparison_section(self, data: Dict) -> str:
-        """生成模型对比部分"""
+        """Generate the model comparison section"""
         section_content = r"""
 \section{模型对比分析}
 
@@ -306,21 +306,21 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 \midrule
 """
 
-        # 计算各模型的汇总指标
+        # Compute summary metrics for each model
         for model_name, model_data in data.items():
-            # 计算平均CV
+            # Compute the average CV
             avg_cv = 0
             if 'scoring_reliability' in model_data:
                 cvs = [s['overall_cv'] for s in model_data['scoring_reliability'].values()]
                 avg_cv = np.mean(cvs) if cvs else 0
 
-            # 计算平均ICC
+            # Compute the average ICC
             avg_icc = 0
             if 'icc_scores' in model_data:
                 iccs = list(model_data['icc_scores'].values())
                 avg_icc = np.mean(iccs) if iccs else 0
 
-            # 获取决策一致性
+            # Get decision consistency
             winner_cons = 0
             if 'winner_consistency' in model_data:
                 winner_cons = model_data['winner_consistency']['consistency_rate']
@@ -339,7 +339,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 \begin{enumerate}
 """
 
-        # 计算综合得分并排序
+        # Compute composite scores and sort
         model_scores = []
         for model_name, model_data in data.items():
             score = 0
@@ -348,7 +348,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
             if 'scoring_reliability' in model_data:
                 cvs = [s['overall_cv'] for s in model_data['scoring_reliability'].values()]
                 avg_cv = np.mean(cvs) if cvs else 100
-                # CV越低越好，转换为0-100分
+                # Lower CV is better, convert to a 0-100 score
                 cv_score = max(0, 100 - avg_cv * 2)
                 score += cv_score * 0.3
                 weights.append(("评分一致性", cv_score))
@@ -368,14 +368,14 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 
             model_scores.append((model_name, score, weights))
 
-        # 按综合得分排序
+        # Sort by composite score
         model_scores.sort(key=lambda x: x[1], reverse=True)
 
         for rank, (model_name, score, weights) in enumerate(model_scores, 1):
             model_display = model_name.replace('_', '\\_')
             section_content += f"\\item \\textbf{{{model_display}}} (综合得分: {score:.1f}/100)\n"
 
-            # 添加详细评分
+            # Add detailed scores
             section_content += "\\begin{itemize}\n"
             for name, weight_score in weights:
                 section_content += f"    \\item {name}: {weight_score:.1f}\n"
@@ -389,7 +389,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
         return section_content
 
     def generate_conclusion_section(self, data: Dict) -> str:
-        """生成结论部分"""
+        """Generate the conclusion section"""
         section_content = r"""
 \section{结论与讨论}
 
@@ -399,11 +399,11 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 
 """
 
-        # 为每个模型生成评估结论
+        # Generate the assessment verdicts for each model
         for model_name, model_data in data.items():
             section_content += f"\\subsubsection{{{model_name}}}\n\n"
 
-            # 计算各项指标
+            # Compute the metrics
             avg_cv = 0
             if 'scoring_reliability' in model_data:
                 cvs = [s['overall_cv'] for s in model_data['scoring_reliability'].values()]
@@ -421,7 +421,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
                 winner_cons = wc['consistency_rate']
                 most_common = wc['most_common_winner']
 
-            # 生成评估文本
+            # Generate the assessment text
             assessments = []
 
             if avg_cv < 10:
@@ -492,7 +492,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
         return section_content
 
     def generate_appendix_section(self, data: Dict) -> str:
-        """生成附录部分"""
+        """Generate the appendix section"""
         section_content = r"""
 \appendix
 
@@ -502,7 +502,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 
 """
 
-        # 为每个模型生成详细数据表
+        # Generate the detailed data table for each model
         for model_name, model_data in data.items():
             section_content += f"\\subsubsection{{{model_name}}}\n\n"
 
@@ -517,7 +517,8 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
 \midrule
 """
 
-                # 这里需要原始的formula_stats数据，但由于JSON中未保存，我们简化处理
+                # This needs the raw formula_stats data, which is not stored in
+                # the JSON, so we keep it simple
                 section_content += "\\multicolumn{6}{c}{详细统计数据请参考原始JSON文件} \\\\\n"
 
                 section_content += r"""\bottomrule
@@ -529,7 +530,7 @@ ICC用于衡量不同轮次（评分者）之间的一致性，通过计算所�
         return section_content
 
     def generate_references_section(self) -> str:
-        """生成参考文献部分"""
+        """Generate the references section"""
         return r"""
 \section{参考文献}
 
@@ -557,16 +558,16 @@ Landis JR, Koch GG.
 """
 
     def generate_document_end(self) -> str:
-        """生成文档结尾"""
+        """Generate the document end"""
         return r"""\end{document}"""
 
     def generate_full_report(self, output_file: str = None) -> str:
-        """生成完整的LaTeX报告"""
+        """Generate the full LaTeX report"""
         print("=" * 80)
         print("生成LaTeX格式报告")
         print("=" * 80)
 
-        # 加载数据
+        # Load data
         try:
             data = self.load_data()
             print(f"✓ 成功加载分析数据")
@@ -575,49 +576,49 @@ Landis JR, Koch GG.
             print("请先运行 analyze_llm_reliability.py 生成分析结果")
             return None
 
-        # 构建完整报告
+        # Build the full report
         report_parts = []
 
-        # 1. 导言部分
+        # 1. Preamble
         report_parts.append(self.generate_preamble())
         print("✓ 生成导言部分")
 
-        # 2. 引言
+        # 2. Introduction
         report_parts.append(self.generate_section_introduction())
         print("✓ 生成引言部分")
 
-        # 3. 研究方法
+        # 3. Methodology
         report_parts.append(self.generate_section_methodology())
         print("✓ 生成研究方法部分")
 
-        # 4. 各模型详细分析
+        # 4. Detailed analysis per model
         for model_name, model_data in data.items():
             report_parts.append(self.generate_model_section(model_name, model_data))
         print("✓ 生成各模型详细分析")
 
-        # 5. 模型对比
+        # 5. Model comparison
         report_parts.append(self.generate_comparison_section(data))
         print("✓ 生成模型对比分析")
 
-        # 6. 结论
+        # 6. Conclusion
         report_parts.append(self.generate_conclusion_section(data))
         print("✓ 生成结论部分")
 
-        # 7. 附录
+        # 7. Appendix
         report_parts.append(self.generate_appendix_section(data))
         print("✓ 生成附录部分")
 
-        # 8. 参考文献
+        # 8. References
         report_parts.append(self.generate_references_section())
         print("✓ 生成参考文献部分")
 
-        # 9. 文档结尾
+        # 9. Document end
         report_parts.append(self.generate_document_end())
 
-        # 合并所有部分
+        # Merge all parts
         full_report = ''.join(report_parts)
 
-        # 保存到文件
+        # Save to file
         if output_file is None:
             output_file = self.output_file
 
@@ -636,7 +637,7 @@ Landis JR, Koch GG.
 
 
 def main():
-    """主函数"""
+    """Main function"""
     print("LaTeX报告生成器")
     print("=" * 80)
 

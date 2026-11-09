@@ -5,9 +5,8 @@ LLM Consensus Reliability Analysis - One-Click Pipeline
 One-click run complete analysis workflow:
 1. Data extraction
 2. Reliability analysis
-3. Generate visualizations
-4. Generate LaTeX reports
-5. Compile PDF (optional)
+3. Generate LaTeX reports
+4. Compile PDF (optional)
 
 Usage:
     python run_pipeline.py              # Run all steps
@@ -127,9 +126,8 @@ def main():
     steps = [
         ("reliability_analysis.extract_data", "Data Extraction", 1),
         ("reliability_analysis.analyze_reliability", "Reliability Analysis", 2),
-        ("example_visualization", "Generate Visualizations", 3),
-        ("reporting.generate_tex", "Generate Chinese Report", 4),
-        ("reporting.generate_tex_en", "Generate English Report", 5),
+        ("reporting.generate_tex", "Generate Chinese Report", 3),
+        ("reporting.generate_tex_en", "Generate English Report", 4),
     ]
 
     completed = 0
@@ -161,7 +159,6 @@ def main():
         print("\nGenerated files:")
         print("  - extracted_data.json")
         print("  - reliability_analysis_results.json")
-        print("  - visualizations/*.png")
         print("  - LLM_Reliability_Report.tex / .pdf")
         print("  - LLM_Reliability_Report_EN.tex / .pdf")
         return 0

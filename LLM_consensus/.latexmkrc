@@ -1,3 +1,3 @@
-# 使用 xelatex 编译器
+# Use the xelatex compiler
 $pdf_mode = 5;
 $postsc

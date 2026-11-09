@@ -119,10 +119,11 @@ class RigorousBiasAnalyzer:
             # Permutation test for p-value (more rigorous than asymptotic)
             n = len(X)
             n_perm = 1000
+            rng = np.random.default_rng(42)
             rho_perm = []
 
             for _ in range(n_perm):
-                perm_idx = np.random.permutation(n)
+                perm_idx = rng.permutation(n)
                 X_perm = X[perm_idx]
 
                 rho_xy_perm, _ = spearmanr(X_perm, Y)
@@ -179,7 +180,8 @@ class RigorousBiasAnalyzer:
             estimator=LinearRegression(),
             min_samples=5,
             residual_threshold=1.0,
-            max_trials=1000
+            max_trials=1000,
+            random_state=42,
         )
         ransac.fit(X, y)
         y_pred_ransac = ransac.predict(X)

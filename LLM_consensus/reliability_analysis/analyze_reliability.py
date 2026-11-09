@@ -1,6 +1,6 @@
 """
 LLM Consensus Reliability Analysis
-分析同一AI模型多轮运行的打分可靠性
+Analyze the scoring reliability of multiple runs of the same AI model
 """
 
 import pandas as pd
@@ -14,7 +14,7 @@ import io
 
 
 class LLMReliabilityAnalyzer:
-    """分析LLM模型多轮运行的可靠性"""
+    """Analyze the reliability of multiple LLM runs"""
 
     def __init__(self, base_dir: str = ".", data_file: str = "extracted_data.json"):
         self.base_dir = Path(base_dir)
@@ -29,18 +29,18 @@ class LLMReliabilityAnalyzer:
             "Thrombogenicity",
             "Total_Score"
         ]
-        self.all_data = {}  # 存储所有模型的原始数据
-        self.analysis_results = {}  # 存储分析结果
+        self.all_data = {}  # Raw data for all models
+        self.analysis_results = {}  # Analysis results
 
     def load_data_from_json(self, json_file: str) -> Dict[str, pd.DataFrame]:
         """
-        从JSON文件加载已提取的数据
+        Load previously extracted data from a JSON file
 
-        参数:
-            json_file: JSON文件路径
+        Args:
+            json_file: path to the JSON file
 
-        返回:
-            字典，键为模型名称，值为DataFrame
+        Returns:
+            Dict mapping model name to DataFrame
         """
         file_path = self.base_dir / json_file
 
@@ -59,9 +59,9 @@ class LLMReliabilityAnalyzer:
 
     def load_all_data(self) -> None:
         """
-        加载所有模型的数据
+        Load data for all models
 
-        从预先提取的JSON文件中加载数据
+        Loads data from a previously extracted JSON file
         """
         print("=" * 80)
         print("步骤 1: 加载数据")
@@ -73,7 +73,7 @@ class LLMReliabilityAnalyzer:
             print(f"\n{model}:")
             print(f"  ✓ 成功加载 {len(df)} 条记录，{df['Run'].nunique()} 轮运行")
 
-            # 检查Winner字段
+            # Check the Winner field
             if 'Winner' in df.columns:
                 winner_counts = df[df['Winner'].notna()].groupby('Run')['Winner'].first()
                 print(f"  - 提取到 {len(winner_counts)} 个获胜配方")
@@ -84,23 +84,23 @@ class LLMReliabilityAnalyzer:
 
     def calculate_reliability_metrics(self, df: pd.DataFrame) -> Dict[str, Dict]:
         """
-        计算可靠性指标
+        Compute reliability metrics
 
-        对每个评价标准计算以下指标：
-        - 变异系数 (CV): 标准差/均值 × 100%
-        - 标准差 (Std)
-        - 极差 (Range)
-        - 一致性比率 (Consistency Ratio)
+        For each criterion the following metrics are computed:
+        - Coefficient of variation (CV): std / mean × 100%
+        - Standard deviation (Std)
+        - Range
+        - Consistency ratio
 
-        参数:
-            df: 包含多轮运行数据的DataFrame
+        Args:
+            df: DataFrame with multi-run data
 
-        返回:
-            字典，键为评价标准名称，值为包含统计指标的字典
+        Returns:
+            Dict mapping criterion name to a dict of statistical metrics
         """
         results = {}
 
-        # 按轮次和配方分组
+        # Group by run and formula
         for criterion in self.criteria:
             criterion_data = []
 
@@ -124,7 +124,7 @@ class LLMReliabilityAnalyzer:
 
             criterion_df = pd.DataFrame(criterion_data)
 
-            # 计算每个配方在所有轮次中的统计数据
+            # Compute per-formula statistics across all runs
             formula_stats = []
             for formula_num in range(1, 11):
                 formula_data = criterion_df[criterion_df['Formula'] == formula_num]['Value'].values
@@ -145,7 +145,7 @@ class LLMReliabilityAnalyzer:
             if formula_stats:
                 stats_df = pd.DataFrame(formula_stats)
 
-                # 计算整体可靠性指标
+                # Compute overall reliability metrics
                 results[criterion] = {
                     'formula_stats': stats_df,
                     'overall_cv': stats_df['CV'].mean(),
@@ -164,22 +164,23 @@ class LLMReliabilityAnalyzer:
         icc_type: str = 'ICC3'
     ) -> Optional[float]:
         """
-        计算组内相关系数 (ICC) - 评估评分者间一致性
+        Compute the intraclass correlation coefficient (ICC) - assesses
+        inter-rater agreement
 
-        基于 Shrout & Fleiss (1979) 的方法：
-        - ICC(1,1): 单向随机效应模型，单个测量
-        - ICC(2,1): 双向随机效应模型，单个测量，一致性
-        - ICC(3,1): 双向固定效应模型，单个测量，绝对一致性
-        - ICC(3,k): 双向固定效应模型，平均测量，绝对一致性
+        Based on Shrout & Fleiss (1979):
+        - ICC(1,1): one-way random effects model, single measurement
+        - ICC(2,1): two-way random effects model, single measurement, consistency
+        - ICC(3,1): two-way fixed effects model, single measurement, absolute agreement
+        - ICC(3,k): two-way fixed effects model, average measurement, absolute agreement
 
-        参数:
-            df: 包含多轮运行数据的DataFrame
-            criterion: 要分析的评价标准
-            icc_type: ICC类型，默认为'ICC3'（双向固定效应，绝对一致性）
+        Args:
+            df: DataFrame with multi-run data
+            criterion: criterion to analyze
+            icc_type: ICC type, default 'ICC3' (two-way fixed effects, absolute agreement)
 
-        返回:
-            ICC值，范围为-1到1，越接近1表示一致性越好
-            None: 数据不足无法计算
+        Returns:
+            ICC value in [-1, 1]; values closer to 1 mean better agreement
+            None: not enough data to compute
         """
         data_matrix = []
 
@@ -195,10 +196,10 @@ class LLMReliabilityAnalyzer:
             return None
 
         data_matrix = np.array(data_matrix)
-        n_raters = data_matrix.shape[0]  # 评分者数量（轮数）
-        n_targets = data_matrix.shape[1]  # 被评分者数量（配方数）
+        n_raters = data_matrix.shape[0]  # number of raters (runs)
+        n_targets = data_matrix.shape[1]  # number of targets (formulas)
 
-        # 计算ICC使用双向ANOVA方法
+        # Compute ICC via two-way ANOVA
         return self._calculate_icc_anova(data_matrix, icc_type)
 
     def _calculate_icc_anova(
@@ -207,14 +208,14 @@ class LLMReliabilityAnalyzer:
         icc_type: str = 'ICC3'
     ) -> Optional[float]:
         """
-        使用ANOVA方法计算ICC
+        Compute ICC using the ANOVA method
 
-        参数:
-            data_matrix: 形状为(n_raters, n_targets)的评分矩阵
-            icc_type: ICC类型
+        Args:
+            data_matrix: score matrix of shape (n_raters, n_targets)
+            icc_type: ICC type
 
-        返回:
-            ICC值或None（如果计算失败）
+        Returns:
+            ICC value, or None if the computation fails
         """
         if data_matrix.size == 0:
             return None
@@ -222,34 +223,34 @@ class LLMReliabilityAnalyzer:
         n_raters = data_matrix.shape[0]
         n_targets = data_matrix.shape[1]
 
-        # 计算总均值
+        # Compute the grand mean
         grand_mean = np.mean(data_matrix)
 
-        # 计算行间（被评分者间）平方和
+        # Compute the between-targets sum of squares
         target_means = np.mean(data_matrix, axis=0)
         ss_between_targets = n_raters * np.sum((target_means - grand_mean) ** 2)
         df_between_targets = n_targets - 1
 
-        # 计算列间（评分者间）平方和
+        # Compute the between-raters sum of squares
         rater_means = np.mean(data_matrix, axis=1)
         ss_between_raters = n_targets * np.sum((rater_means - grand_mean) ** 2)
         df_between_raters = n_raters - 1
 
-        # 计算总平方和
+        # Compute the total sum of squares
         ss_total = np.sum((data_matrix - grand_mean) ** 2)
 
-        # 计算误差平方和（残差）
+        # Compute the error sum of squares (residual)
         ss_error = ss_total - ss_between_targets - ss_between_raters
         df_error = (n_targets - 1) * (n_raters - 1)
 
-        # 计算均方
+        # Compute mean squares
         ms_between_targets = ss_between_targets / df_between_targets if df_between_targets > 0 else 0
         ms_between_raters = ss_between_raters / df_between_raters if df_between_raters > 0 else 0
         ms_error = ss_error / df_error if df_error > 0 else 0
 
-        # 根据Shrout & Fleiss (1979)的公式计算ICC
+        # Compute ICC following the formulas of Shrout & Fleiss (1979)
         if icc_type == 'ICC1':
-            # 单向随机效应模型，单个测量
+            # One-way random effects model, single measurement
             if ms_between_targets + (n_raters - 1) * ms_error == 0:
                 return None
             icc = (ms_between_targets - ms_error) / (
@@ -257,7 +258,7 @@ class LLMReliabilityAnalyzer:
             )
 
         elif icc_type == 'ICC2':
-            # 双向随机效应模型，单个测量，一致性
+            # Two-way random effects model, single measurement, consistency
             denominator = (
                 ms_between_targets
                 + (n_raters - 1) * ms_error
@@ -268,7 +269,7 @@ class LLMReliabilityAnalyzer:
             icc = (ms_between_targets - ms_error) / denominator
 
         elif icc_type == 'ICC3':
-            # 双向固定效应模型，单个测量，绝对一致性
+            # Two-way fixed effects model, single measurement, absolute agreement
             if ms_between_targets + (n_raters - 1) * ms_error == 0:
                 return None
             icc = (ms_between_targets - ms_error) / (
@@ -276,7 +277,7 @@ class LLMReliabilityAnalyzer:
             )
 
         elif icc_type == 'ICC3k':
-            # 双向固定效应模型，平均测量，绝对一致性
+            # Two-way fixed effects model, average measurement, absolute agreement
             if ms_between_targets == 0:
                 return None
             icc = (ms_between_targets - ms_error) / ms_between_targets
@@ -284,28 +285,28 @@ class LLMReliabilityAnalyzer:
         else:
             return None
 
-        # ICC值理论上应该在[-1, 1]范围内
-        # 由于数值误差可能会超出，需要截断
+        # The ICC should theoretically lie in [-1, 1]
+        # Numerical error can push it outside; clamp it
         icc = max(min(icc, 1.0), -1.0)
 
         return icc
 
     def analyze_winner_consistency(self, df: pd.DataFrame) -> Dict[str, Any]:
         """
-        分析获胜配方的一致性
+        Analyze the consistency of winning formulas
 
-        计算以下指标：
-        - 获胜配方分布
-        - 最常见获胜配方
-        - 一致性率（最常见获胜配方的出现比例）
-        - 熵（衡量获胜配方的不确定性）
-        - 最大熵（所有配方等概率出现时的熵值）
+        Computes the following metrics:
+        - Winning formula distribution
+        - Most common winning formula
+        - Consistency rate (frequency of the most common winning formula)
+        - Entropy (uncertainty of the winning formula)
+        - Max entropy (entropy if all formulas were equally likely)
 
-        参数:
-            df: 包含Winner列的DataFrame
+        Args:
+            df: DataFrame containing a Winner column
 
-        返回:
-            包含一致性分析结果的字典
+        Returns:
+            Dict with the consistency analysis results
         """
         if 'Winner' not in df.columns:
             return {
@@ -317,7 +318,7 @@ class LLMReliabilityAnalyzer:
                 'max_entropy': 0.0
             }
 
-        # 过滤掉Winner为NaN的记录
+        # Filter out records where Winner is NaN
         valid_df = df[df['Winner'].notna()]
 
         if valid_df.empty:
@@ -338,11 +339,11 @@ class LLMReliabilityAnalyzer:
         total_runs = len(winners)
         consistency_rate = most_common_count / total_runs * 100
 
-        # 计算熵（衡量不确定性）
+        # Compute entropy (measures uncertainty)
         probs = winner_counts / total_runs
         entropy = -np.sum(probs * np.log2(probs))
 
-        # 将配方编号转换为整数（避免float类型，如5.0 -> 5）
+        # Convert formula numbers to ints (avoid float type, e.g. 5.0 -> 5)
         winner_distribution = {int(k): int(v) for k, v in winner_counts.to_dict().items()}
 
         return {
@@ -357,18 +358,20 @@ class LLMReliabilityAnalyzer:
 
     def analyze_winner_margin(self, df: pd.DataFrame) -> Dict[str, Any]:
         """
-        分析最优配方与次优配方的得分差异（Winner Margin）
+        Analyze the score gap between the best and runner-up formulas
+        (Winner Margin)
 
-        评估cascading divergence风险：
-        - 如果最优和次优得分非常接近，最优选择容易受到小波动影响
-        - 计算每个run中第1名和第2名的得分差
-        - 统计分析得分差的分布特性
+        Assesses cascading divergence risk:
+        - If the best and runner-up scores are very close, the optimal choice
+          is easily affected by small fluctuations
+        - Computes the top-1 vs top-2 score gap for each run
+        - Analyzes the distribution of these gaps statistically
 
-        参数:
-            df: 包含多轮运行数据的DataFrame
+        Args:
+            df: DataFrame with multi-run data
 
-        返回:
-            包含margin分析结果的字典
+        Returns:
+            Dict with the margin analysis results
         """
         if 'Total_Score' not in df.columns:
             return {
@@ -385,19 +388,19 @@ class LLMReliabilityAnalyzer:
 
         margins = []
 
-        # 按run分组，计算每个run中第1名和第2名的得分差
+        # Group by run and compute the top-1 vs top-2 score gap per run
         for run_num in df['Run'].unique():
             run_df = df[df['Run'] == run_num].copy()
 
-            # 按Total_Score降序排序
+            # Sort by Total_Score descending
             run_df = run_df.sort_values('Total_Score', ascending=False)
 
             if len(run_df) >= 2:
-                # 获取第1名和第2名的得分
+                # Get the top-1 and top-2 scores
                 first_score = run_df.iloc[0]['Total_Score']
                 second_score = run_df.iloc[1]['Total_Score']
 
-                # 计算得分差
+                # Compute the score gap
                 margin = first_score - second_score
                 margins.append(margin)
 
@@ -416,15 +419,15 @@ class LLMReliabilityAnalyzer:
 
         margins = np.array(margins)
 
-        # 统计分析
+        # Statistical analysis
         avg_margin = np.mean(margins)
         std_margin = np.std(margins, ddof=1) if len(margins) > 1 else 0.0
         cv_margin = (std_margin / avg_margin * 100) if avg_margin > 0 else 0.0
         min_margin = np.min(margins)
         max_margin = np.max(margins)
 
-        # 评估cascading divergence风险
-        # 风险等级基于平均margin和最小margin
+        # Assess cascading divergence risk
+        # Risk level is based on the average margin and the minimum margin
         if avg_margin < 1.0:
             risk_level = "高风险"
             risk = (f"最优与次优得分差异极小（平均{avg_margin:.2f}分），"
@@ -446,7 +449,8 @@ class LLMReliabilityAnalyzer:
                     f"cascading divergence风险极低。"
                     f"最优选择非常稳定，决策一致性高。")
 
-        # 如果最小margin很小，即使平均margin较大，也需警告
+        # Warn if the minimum margin is very small, even when the average
+        # margin is large
         if min_margin < 1.0 and risk_level != "高风险":
             risk += f" 注意：存在margin小于1.0的run（最小{min_margin:.2f}），这些run可能不稳定。"
 
@@ -463,15 +467,15 @@ class LLMReliabilityAnalyzer:
 
     def analyze_all_models(self) -> None:
         """
-        分析所有模型的可靠性
+        Analyze the reliability of all models
 
-        对每个加载的模型执行以下分析：
-        1. 评分一致性分析（计算CV、标准差等）
-        2. 组内相关系数(ICC)分析
-        3. 获胜配方一致性分析
-        4. 最优-次优配方差异分析（Cascading Divergence风险评估）
+        For each loaded model the following analyses are run:
+        1. Scoring consistency analysis (CV, standard deviation, etc.)
+        2. Intraclass correlation coefficient (ICC) analysis
+        3. Winning formula consistency analysis
+        4. Best vs runner-up gap analysis (cascading divergence risk)
 
-        结果存储在self.analysis_results字典中
+        Results are stored in the self.analysis_results dict
         """
         print("\n" + "=" * 80)
         print("步骤 2: 计算可靠性指标")
@@ -484,7 +488,7 @@ class LLMReliabilityAnalyzer:
 
             self.analysis_results[model] = {}
 
-            # 1. 计算评分可靠性
+            # 1. Compute scoring reliability
             print("\n【评分一致性分析】")
             metrics = self.calculate_reliability_metrics(df)
             self.analysis_results[model]['scoring_reliability'] = metrics
@@ -496,7 +500,7 @@ class LLMReliabilityAnalyzer:
                 print(f"  最小变异系数: {stats['min_cv']:.2f}%")
                 print(f"  一致性比率: {stats['consistency_ratio']:.3f}")
 
-            # 2. 计算ICC
+            # 2. Compute ICC
             print("\n【组内相关系数 (ICC) 分析】")
             self.analysis_results[model]['icc_scores'] = {}
 
@@ -506,7 +510,7 @@ class LLMReliabilityAnalyzer:
                     self.analysis_results[model]['icc_scores'][criterion] = icc
                     print(f"  {criterion}: {icc:.4f}")
 
-            # 3. 分析获胜配方一致性
+            # 3. Analyze winning formula consistency
             print("\n【获胜配方一致性分析】")
             winner_analysis = self.analyze_winner_consistency(df)
             self.analysis_results[model]['winner_consistency'] = winner_analysis
@@ -520,7 +524,7 @@ class LLMReliabilityAnalyzer:
             else:
                 print(f"  错误: {winner_analysis['error']}")
 
-            # 4. 分析最优-次优配方差异
+            # 4. Analyze the best vs runner-up gap
             print("\n【最优-次优配方差异分析】")
             margin_analysis = self.analyze_winner_margin(df)
             self.analysis_results[model]['winner_margin'] = margin_analysis
@@ -532,7 +536,7 @@ class LLMReliabilityAnalyzer:
                 print(f"  最小得分差: {margin_analysis['min_margin']:.2f}")
                 print(f"  最大得分差: {margin_analysis['max_margin']:.2f}")
 
-                # 评估cascading divergence风险
+                # Assess cascading divergence risk
                 risk = margin_analysis['cascading_risk']
                 risk_level = margin_analysis['risk_level']
                 print(f"  Cascading Divergence风险: {risk_level}")
@@ -542,12 +546,13 @@ class LLMReliabilityAnalyzer:
 
     def generate_summary_report(self) -> Dict[str, Any]:
         """
-        生成总结报告
+        Generate a summary report
 
-        汇总所有模型的可靠性指标，生成对比表格和评估结论
+        Aggregates reliability metrics across models, producing comparison
+        tables and assessment verdicts
 
-        返回:
-            包含总结数据的字典
+        Returns:
+            Dict with summary data
         """
         print("\n" + "=" * 80)
         print("步骤 3: 生成总结报告")
@@ -564,21 +569,21 @@ class LLMReliabilityAnalyzer:
 
             results = self.analysis_results[model]
 
-            # 计算整体可靠性评分
+            # Compute overall reliability scores
             reliability_scores = []
 
-            # 评分一致性 (CV越低越好)
+            # Scoring consistency (lower CV is better)
             scoring_reliability = results['scoring_reliability']
             avg_cv = np.mean([s['overall_cv'] for s in scoring_reliability.values()])
             reliability_scores.append(('Scoring_CV', avg_cv))
 
-            # ICC分数 (越高越好)
+            # ICC scores (higher is better)
             icc_scores = [s for s in results['icc_scores'].values() if not np.isnan(s)]
             if icc_scores:
                 avg_icc = np.mean(icc_scores)
                 reliability_scores.append(('ICC', avg_icc))
 
-            # 获胜一致性 (越高越好)
+            # Winner consistency (higher is better)
             winner_consistency = results['winner_consistency']
             if 'error' not in winner_consistency:
                 consistency_rate = winner_consistency['consistency_rate']
@@ -586,7 +591,7 @@ class LLMReliabilityAnalyzer:
 
             summary['overall_findings'][model] = reliability_scores
 
-        # 打印总结表格
+        # Print the summary table
         print("\n【各模型可靠性对比】")
         print("-" * 80)
         print(f"{'模型':<35} {'平均CV(%)':<12} {'平均ICC':<12} {'获胜一致性(%)':<15}")
@@ -617,7 +622,7 @@ class LLMReliabilityAnalyzer:
 
         print("-" * 80)
 
-        # 生成结论
+        # Generate verdicts
         print("\n【统计可靠性结论】")
         print("=" * 80)
 
@@ -660,7 +665,7 @@ class LLMReliabilityAnalyzer:
             for verdict in reliability_verdict:
                 print(f"  {verdict}")
 
-            # 总体评估
+            # Overall assessment
             excellent_count = sum(1 for v in reliability_verdict if "✓" in v and "优秀" in v)
             good_count = sum(1 for v in reliability_verdict if "✓" in v and "良好" in v)
 
@@ -683,20 +688,21 @@ class LLMReliabilityAnalyzer:
 
     def export_results(self, output_file: str = "reliability_analysis_results.json") -> None:
         """
-        导出分析结果到JSON文件
+        Export analysis results to a JSON file
 
-        将self.analysis_results中的所有分析结果导出为JSON格式，
-        便于后续分析和报告生成
+        Exports all analysis results from self.analysis_results as JSON for
+        downstream analysis and report generation
 
-        参数:
-            output_file: 输出文件名，默认为"reliability_analysis_results.json"
+        Args:
+            output_file: output file name, defaults to
+                "reliability_analysis_results.json"
         """
         export_data = {}
 
         for model, results in self.analysis_results.items():
             export_data[model] = {}
 
-            # 转换scoring_reliability
+            # Convert scoring_reliability
             if 'scoring_reliability' in results:
                 export_data[model]['scoring_reliability'] = {}
                 for criterion, stats in results['scoring_reliability'].items():
@@ -708,13 +714,13 @@ class LLMReliabilityAnalyzer:
                         'consistency_ratio': float(stats['consistency_ratio'])
                     }
 
-            # 转换ICC分数
+            # Convert ICC scores
             if 'icc_scores' in results:
                 export_data[model]['icc_scores'] = {
                     k: float(v) for k, v in results['icc_scores'].items()
                 }
 
-            # 转换winner_consistency
+            # Convert winner_consistency
             if 'winner_consistency' in results:
                 wc = results['winner_consistency']
                 if 'error' not in wc:
@@ -730,7 +736,7 @@ class LLMReliabilityAnalyzer:
                 else:
                     export_data[model]['winner_consistency'] = wc
 
-            # 转换winner_margin
+            # Convert winner_margin
             if 'winner_margin' in results:
                 wm = results['winner_margin']
                 if 'error' not in wm:
@@ -756,16 +762,16 @@ class LLMReliabilityAnalyzer:
 
 def main():
     """
-    主函数
+    Main function
 
-    执行完整的LLM可靠性分析流程：
-    1. 初始化分析器
-    2. 加载所有模型数据
-    3. 计算可靠性指标
-    4. 生成总结报告
-    5. 导出分析结果
+    Runs the full LLM reliability analysis pipeline:
+    1. Initialize the analyzer
+    2. Load data for all models
+    3. Compute reliability metrics
+    4. Generate the summary report
+    5. Export the analysis results
     """
-    # 设置UTF-8编码（Windows）
+    # Set UTF-8 encoding (Windows)
     if sys.platform == 'win32':
         try:
             sys.stdout.reconfigure(encoding='utf-8')
@@ -776,10 +782,10 @@ def main():
     print("LLM 多轮运行可靠性分析")
     print("=" * 80)
 
-    # 创建分析器实例
+    # Create the analyzer instance
     analyzer = LLMReliabilityAnalyzer()
 
-    # 步骤1: 加载数据
+    # Step 1: load data
     try:
         analyzer.load_all_data()
     except FileNotFoundError as e:
@@ -787,18 +793,18 @@ def main():
         print("\n请先运行 extract_data.py 提取数据！")
         return
 
-    # 检查是否成功加载了数据
+    # Check whether any data was loaded
     if not analyzer.all_data:
         print("\n错误: 未能加载任何数据")
         return
 
-    # 步骤2: 分析所有模型
+    # Step 2: analyze all models
     analyzer.analyze_all_models()
 
-    # 步骤3: 生成总结报告
+    # Step 3: generate the summary report
     analyzer.generate_summary_report()
 
-    # 步骤4: 导出结果
+    # Step 4: export the results
     analyzer.export_results()
 
 
